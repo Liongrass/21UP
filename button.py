@@ -4,13 +4,14 @@ from time import sleep
 import asyncio
 
 # Functions and variables
-from payments import payment
+from payments import payment, stop_process
 
 pinIn=17
 
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pinIn, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
 
 # Assume the button is not currently pressed
 was_pressed = True
@@ -22,6 +23,7 @@ async def listener():
         if is_pressed and not was_pressed:
             print("Button was pressed!")
             sleep(0.5)
+            stop_process()
             await payment()
             sleep(0.5)
         was_pressed = is_pressed

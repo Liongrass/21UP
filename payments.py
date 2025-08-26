@@ -4,6 +4,7 @@ import asyncio
 import websockets
 import os
 from dotenv import load_dotenv
+import threading
 
 # Functions
 from dispense import trigger, pinOut
@@ -33,6 +34,14 @@ params = {"out": False,
 headers = {"X-Api-Key" : x_api_key,
            "Content-type" : "application/json"}
 
+global stop_flag
+stop_flag = True
+
+def stop_process():
+    global stop_flag
+    stop_flag = False
+    print("Setting Stop Flag")
+
 # This function generates an invoice through the LNbits API and returns only the Bolt11 invoice
 def get_invoice(params, headers):
     try:
@@ -49,11 +58,10 @@ async def listen_for_payment(ws_base, x_api_key, invoice):
     async with websockets.connect(ws_base + x_api_key) as websocket:
         print("Connected to " + ws_base)
         print(f"Waiting for payment: {invoice['amount']} msat")
-        while True:
+        while stop_flag == True:
             try:
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
-                
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
                     print("Payment received. Dispensing 21UP. Payment hash: " + response['payment']['payment_hash'])
                     trigger(pinOut)
@@ -69,6 +77,8 @@ async def listen_for_payment(ws_base, x_api_key, invoice):
 
 # This is the main function. It will first get the invoice with get_invoice(), then evoke listen_for_payment(). If within sixty seconds the invoice is not paid, it will shut down.
 async def payment():
+    global stop_flag
+    stop_flag = True
     get_invoice(params, headers)
     try:
         await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice), timeout=60.0)
