@@ -5,11 +5,9 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 Currently being implemented:
 - Keep listening for the button even when an invoice is currently pending.
 - Cancel the current invoice when a button is pressed
-- Make a requirements.txt
 - Make a setup.py file
 
 To be implemented:
-- Listen on multiple pins
 - Configure individual prices for each tray
 - Dispense on multiple pins
 - The display
