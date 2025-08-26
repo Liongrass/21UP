@@ -4,7 +4,6 @@ import asyncio
 import websockets
 import os
 from dotenv import load_dotenv
-import threading
 
 # Functions
 from dispense import trigger, pinOut
