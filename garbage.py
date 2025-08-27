@@ -9,3 +9,20 @@ def check_invoice(invoice):
     except Exception as e:
         print("Exception thrown while trying to check invoice" + e)
         return
+
+def buttonEventHandler_rising(channel):
+    print(f"GPIO signal detected on pin {channel}.")
+    asyncio.create_task(payment())
+
+async def listener():
+    setupGPIO()
+    print("Listening for a button press")
+    try:
+        for ch in pin_list:
+            GPIO.add_event_detect(ch, GPIO.RISING, callback=buttonEventHandler_rising, bouncetime=500)
+            await asyncio.sleep(3600)
+    except KeyboardInterrupt:
+        print("Program interrupted.")
+    finally:
+        GPIO.cleanup()
+        print("GPIO cleanup finished.")

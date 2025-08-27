@@ -1,8 +1,10 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
+pin_out = [5, 6, 13]
+
 # pinOut=5  # CH1
-pinOut=6  # CH2
+# pinOut=6  # CH2
 # pinOut=13 # CH3
 # pinOut=16 # CH4
 # pinOut=19 # CH5
@@ -11,13 +13,13 @@ pinOut=6  # CH2
 # pinOut=26 # CH8
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pinOut,GPIO.OUT)
+GPIO.setup(pin_out,GPIO.OUT)
 
-def trigger(pinOut):
-	print("starting low")
-	GPIO.output(pinOut, GPIO.LOW)
+def trigger(pinOut, tray):
+	print(f"Dispensing tray {tray} at pin {pin_out[tray]}")
+	GPIO.output(pin_out[tray], GPIO.LOW)
 	print ("waiting 2s")
 	sleep(2)
-	print("continuing high")
-	GPIO.output(pinOut, GPIO.HIGH)
+	print(f"Done dispensing tray {tray}")
+	GPIO.output(pin_out[tray], GPIO.HIGH)
 	#GPIO.cleanup()

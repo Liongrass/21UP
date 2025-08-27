@@ -4,31 +4,28 @@ from time import sleep
 import asyncio
 
 # Functions and variables
-from payments import payment, stop_process
+from payments import payment
 
-pinInA=17
-pinInB=27
-pinInC=22
-
-pin_list = [17, 27, 22]
-counts = { ch: 0 for ch in pin_list }
+pin_in = [17, 27, 22]
 
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_list, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 async def listener():
     while True:
         detected = False
-        for ch in pin_list:
-            if GPIO.input(ch):
+        for i in pin_in:
+            if GPIO.input(i):
                 detected = True
-                counts[ch] += 1
+                global tray
+                tray = pin_in.index(i)
+                item = i
+                sleep(0.5)
         if detected:
-            print(counts)
-            for ch in pin_list:
-                counts[ch] = 0
+            print(f"Pin {item} pressed. Fetching payment for tray {tray}")
+            await payment(tray)
         # if an event remains high for more than 0.5 sec it might
         # be counted again on the next loop. Likewise if an event
         # comes and goes before the next loop it will be missed.
-        sleep(0.5)
+        #sleep(0.5)

@@ -3,13 +3,13 @@ import asyncio
 
 # Functions and variables
 from button import listener
-#from payments import payment
 
 ####### MAIN ########
 
 # The main function is run, waiting for button to be pressed
 asyncio.run(listener())
 
+#asyncio.run(main())
 '''
 async def main():
     tasks = [
