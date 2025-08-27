@@ -5,8 +5,7 @@ import asyncio
 
 # Functions and variables
 from payments import payment
-
-pin_in = [17, 27, 22]
+from var import pin_in, button_delay
 
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
@@ -21,7 +20,7 @@ async def listener():
                 global tray
                 tray = pin_in.index(i)
                 item = i
-                sleep(0.5)
+                sleep(button_delay)
         if detected:
             print(f"Pin {item} pressed. Fetching payment for tray {tray}")
             await payment(tray)

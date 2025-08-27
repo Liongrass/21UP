@@ -1,37 +1,25 @@
+# Modules
 import requests
 import json
 import asyncio
 import websockets
-import os
-from dotenv import load_dotenv
 
-# Functions
+# Functions and variables
 from dispense import trigger, pin_out
+from var import x_api_key, lnbits_server, memo_str, expiry, label, price, unit
 
 ####### VARIABLES ########
 
-load_dotenv()
-
-x_api_key = os.getenv("LNBITS_INVOICE_KEY")
-lnbits_server = os.getenv("LNBITS_SERVER")
 url_base = "https://" + lnbits_server + "/api/v1/payments"
 ws_base = "wss://" + lnbits_server + "/api/v1/ws/"
-
-amount = os.getenv("PRICE")
-unit = os.getenv("UNIT")
-memo = os.getenv("INVOICE_MEMO")
-expiry = os.getenv("INVOICE_EXPIRY")
-
-label = ["Coke", "21UP", "Beer"]
-price = [10, 21, 42]
 
 ##################################
 
 def params(tray):
         params = {"out": False,
                   "amount": price[tray],
-                  "unit": unit,
-                  "memo": f"One {label[tray]} from the 21UP machine. Thank you!",
+                  "unit": unit[tray],
+                  "memo": memo_str.format(item=label[tray]),
                   "expiry": expiry}
         # print(params)
         return params
@@ -85,7 +73,7 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
 async def payment(tray):
     global stop_flag
     stop_flag = True
-    print(f"Getting invoice for tray {tray}")
+    print(f"Getting invoice for tray {tray} ({label[tray]})")
     get_invoice(params, headers, tray)
     try:
         await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=60.0)
