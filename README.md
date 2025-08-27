@@ -3,7 +3,6 @@
 The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when a button on the machine is pressed. When the invoice is paid it dispenses the requested can.
 
 Currently being implemented:
-- Move variables to .env file entirely
 
 To be implemented:
 - Keep listening for the button even when an invoice is currently pending.
