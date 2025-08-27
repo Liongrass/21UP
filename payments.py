@@ -27,14 +27,6 @@ def params(tray):
 headers = {"X-Api-Key" : x_api_key,
            "Content-type" : "application/json"}
 
-global stop_flag
-stop_flag = True
-
-def stop_process():
-    global stop_flag
-    stop_flag = False
-    print("Setting Stop Flag")
-
 # This function generates an invoice through the LNbits API and returns only the Bolt11 invoice
 def get_invoice(params, headers, tray):
     try:
@@ -52,7 +44,7 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
     async with websockets.connect(ws_base + x_api_key) as websocket:
         print("Connected to " + ws_base)
         print(f"Waiting for payment: {invoice['amount']/1000} sat")
-        while stop_flag == True:
+        while True:
             try:
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
@@ -71,12 +63,10 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
 
 # This is the main function. It will first get the invoice with get_invoice(), then evoke listen_for_payment(). If within sixty seconds the invoice is not paid, it will shut down.
 async def payment(tray):
-    global stop_flag
-    stop_flag = True
     print(f"Getting invoice for tray {tray} ({label[tray]})")
     get_invoice(params, headers, tray)
     try:
-        await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=60.0)
+        await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=expiry)
     except asyncio.TimeoutError:
         print("Invoice expired")
     finally:
