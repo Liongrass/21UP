@@ -6,7 +6,7 @@ from time import sleep
 from var import pin_out, relay_duration
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_out,GPIO.OUT)
+GPIO.setup(pin_out,GPIO.OUT, initial=GPIO.HIGH)
 
 def trigger(pinOut, tray):
 	print(f"Dispensing tray {tray} at pin {pin_out[tray]}")

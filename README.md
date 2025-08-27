@@ -12,7 +12,7 @@ To be implemented:
 - Shutdown logic
 
 Bugs:
-- When interrupting the process for the first time, it registers as a keyboard press
+- When the machine is initialized, (sometimes) all pins are triggered
 
 Prerequisites:
 
