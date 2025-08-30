@@ -3,7 +3,7 @@ import asyncio
 
 # Functions and variables
 from button import listener
-from display import initalize, idlescreen, cleanup
+from display import initalize, idlescreen, screencleanup
 
 ####### MAIN ########
 
@@ -18,7 +18,7 @@ async def main():
 
 	except KeyboardInterrupt:
 		print("Keyboard Interrupt detected")
-		cleanup()
+		screencleanup()
 		exit()
 
 

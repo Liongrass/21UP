@@ -25,7 +25,7 @@ def initalize():
 	except IOError as e:
 		logging.info(e)
 
-def cleanup():
+def screencleanup():
 	try:
 		epd.Clear()
 		epd3in52b.epdconfig.module_exit(cleanup=True)

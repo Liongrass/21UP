@@ -1,5 +1,7 @@
 import os
 import json
+import logging
+import traceback
 from dotenv import load_dotenv
 
 ##### VARIABLES #####
