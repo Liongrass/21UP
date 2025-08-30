@@ -12,6 +12,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 async def listener():
+    print(f"listening on pins {pin_in}")
     while True:
         detected = False
         for i in pin_in:

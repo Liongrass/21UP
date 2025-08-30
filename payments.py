@@ -19,7 +19,7 @@ def params(tray):
         params = {"out": False,
                   "amount": price[tray],
                   "unit": unit[tray],
-                  "memo": memo_str.format(item=label[tray]),
+                  "memo": memo_str.format(label=label[tray],price=price[tray],unit=unit[tray]),
                   "expiry": expiry}
         # print(params)
         return params

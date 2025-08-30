@@ -14,7 +14,7 @@ To be implemented:
 - Shutdown logic
 
 Bugs:
-- When the machine is initialized, (sometimes) all pins are triggered
+
 
 Prerequisites:
 
