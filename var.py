@@ -12,6 +12,9 @@ lnbits_server = os.getenv("LNBITS_SERVER", "send.laisee.org")
 memo_str = os.getenv("MEMO_STRING", "Thank you for your purchase from 21UP!")
 expiry = int(os.getenv("INVOICE_EXPIRY", 60))
 
+debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
+logging.basicConfig(level=debuglevel)
+
 ##### TRAYS #####
 
 tray0 = json.loads(os.environ['TRAY0'])
