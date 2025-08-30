@@ -1,18 +1,18 @@
 # Modules
-import RPi.GPIO as GPIO
+from gpiozero import OutputDevice
 from time import sleep
 
 # Functions and variables
 from var import pin_out, relay_duration
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_out,GPIO.OUT, initial=GPIO.HIGH)
+device = [OutputDevice(pin, initial_value=True) for pin in pin_out]
 
 def trigger(pinOut, tray):
+	print("YOYO")
+	print(device[tray])
 	print(f"Dispensing tray {tray} at pin {pin_out[tray]}")
-	GPIO.output(pin_out[tray], GPIO.LOW)
+	device[tray].off()
 	print (f"waiting {relay_duration}s")
 	sleep(relay_duration)
 	print(f"Done dispensing tray {tray}")
-	GPIO.output(pin_out[tray], GPIO.HIGH)
-	#GPIO.cleanup()
+	device[tray].on()

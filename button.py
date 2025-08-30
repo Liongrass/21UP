@@ -1,5 +1,5 @@
 # Modules
-import RPi.GPIO as GPIO
+from gpiozero import Button
 from time import sleep
 import asyncio
 
@@ -8,19 +8,18 @@ from payments import payment
 from var import pin_in, button_delay
 
 # Set up GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+buttons = [Button(btn, pull_up=False) for btn in pin_in]
 
 async def listener():
     print(f"listening on pins {pin_in}")
     while True:
         detected = False
-        for i in pin_in:
-            if GPIO.input(i):
+        for btn in buttons:
+            if btn.is_pressed:
                 detected = True
                 global tray
-                tray = pin_in.index(i)
-                item = i
+                tray = buttons.index(btn)
+                item = btn
                 sleep(button_delay)
         if detected:
             print(f"Pin {item} pressed. Fetching payment for tray {tray}")

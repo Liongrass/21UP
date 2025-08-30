@@ -5,8 +5,8 @@ import asyncio
 import websockets
 
 # Functions and variables
-from dispense import trigger, pin_out
-from var import x_api_key, lnbits_server, memo_str, expiry, label, price, unit
+from dispense import trigger
+from var import x_api_key, lnbits_server, memo_str, expiry, label, price, unit, pin_out
 
 ####### VARIABLES ########
 
