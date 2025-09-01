@@ -6,7 +6,7 @@ import websockets
 
 # Functions and variables
 from dispense import trigger
-from var import x_api_key, lnbits_server, memo_str, expiry, label, price, unit, pin_out
+from var import x_api_key, lnbits_server, memo_str, expiry, label, amount, unit, pin_out
 
 ####### VARIABLES ########
 
@@ -17,9 +17,9 @@ ws_base = "wss://" + lnbits_server + "/api/v1/ws/"
 
 def params(tray):
         params = {"out": False,
-                  "amount": price[tray],
+                  "amount": amount[tray],
                   "unit": unit[tray],
-                  "memo": memo_str.format(label=label[tray],price=price[tray],unit=unit[tray]),
+                  "memo": memo_str.format(label=label[tray],amount=amount[tray],unit=unit[tray]),
                   "expiry": expiry}
         # print(params)
         return params

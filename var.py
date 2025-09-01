@@ -26,11 +26,11 @@ tray3 = json.loads(os.environ['TRAY3'])
 tray4 = json.loads(os.environ['TRAY4'])
 tray5 = json.loads(os.environ['TRAY5'])
 
-label   = [tray0[0], tray1[0], tray2[0], tray3[0], tray4[0], tray5[0]]
-price   = [tray0[1], tray1[1], tray2[1], tray3[1], tray4[1], tray5[1]]
-unit    = [tray0[2], tray1[2], tray2[2], tray3[2], tray4[2], tray5[2]]
-pin_in  = [tray0[3], tray1[3], tray2[3], tray3[3], tray4[3], tray5[3]]
-pin_out = [tray0[4], tray1[4], tray2[4], tray3[4], tray4[4], tray5[4]]
+label    = [tray0[0], tray1[0], tray2[0], tray3[0], tray4[0], tray5[0]]
+amount   = [tray0[1], tray1[1], tray2[1], tray3[1], tray4[1], tray5[1]]
+unit     = [tray0[2], tray1[2], tray2[2], tray3[2], tray4[2], tray5[2]]
+pin_in   = [tray0[3], tray1[3], tray2[3], tray3[3], tray4[3], tray5[3]]
+pin_out  = [tray0[4], tray1[4], tray2[4], tray3[4], tray4[4], tray5[4]]
 
 # pinOut=5  # CH1
 # pinOut=6  # CH2
