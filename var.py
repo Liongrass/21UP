@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import json
 import logging
 import os
+import sys
 import traceback
 
 ##### VARIABLES #####
@@ -17,7 +18,11 @@ expiry = int(os.getenv("INVOICE_EXPIRY", 60))
 
 debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
 
-logging.basicConfig(filename='21UP.log', format='%(asctime)s %(levelname)s %(message)s', level=debuglevel)
+file_handler = logging.FileHandler('21UP.log')
+stdout_handler = logging.StreamHandler(sys.stdout)
+handlers = [file_handler, stdout_handler]
+
+logging.basicConfig(handlers=handlers, format='%(asctime)s %(levelname)s - %(message)s', level=debuglevel)
 logging.info(f"Setting debug level at {debuglevel}")
 
 ##### TRAYS #####
