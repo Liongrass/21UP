@@ -1,7 +1,6 @@
 # Modules
 import logging
 import os
-import segno
 import sys
 from time import sleep
 
