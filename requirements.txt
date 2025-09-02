@@ -8,8 +8,10 @@ Jetson.GPIO==2.1.11
 lgpio==0.2.2.0
 pillow==11.3.0
 python-dotenv==1.1.1
+qrcode==8.2
 requests==2.32.5
 RPi.GPIO==0.7.1
+segno==1.6.6
 spidev==3.7
 urllib3==2.5.0
 waveshare-epaper==1.3.0

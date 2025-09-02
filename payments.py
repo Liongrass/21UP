@@ -1,12 +1,16 @@
 # Modules
-import requests
-import json
 import asyncio
+import json
+import logging
+import requests
 import websockets
 
 # Functions and variables
 from dispense import trigger
-from var import x_api_key, lnbits_server, memo_str, expiry, label, amount, unit, pin_out
+from display import idlescreen, invoicescreen
+from qr import make_qrcode
+from var import amount, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
+
 
 ####### VARIABLES ########
 
@@ -33,8 +37,9 @@ def get_invoice(params, headers, tray):
         invoice_request = requests.post(url_base, json=params(tray), headers=headers)
         global invoice
         invoice = invoice_request.json()
-        #print(invoice)
-        print(invoice["bolt11"])
+        logging.debug(invoice)
+        logging.info(invoice["bolt11"])
+        make_qrcode(invoice)
     except Exception as e:
         print(e)
         return
@@ -42,32 +47,34 @@ def get_invoice(params, headers, tray):
 # This function connects to the LNbits websockets, checks for incoming payments and verifies whether they belong to the most recent invoice
 async def listen_for_payment(ws_base, x_api_key, invoice, tray):
     async with websockets.connect(ws_base + x_api_key) as websocket:
-        print("Connected to " + ws_base)
-        print(f"Waiting for payment: {invoice['amount']/1000} sat")
+        logging.debug(f"Connected to {ws_base}")
+        logging.info(f"Waiting for payment: {invoice['amount']/1000} sat")
         while True:
             try:
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
-                    print(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
+                    logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
                     trigger(pin_out, tray)
+                    idlescreen()
                     break
                 else:
-                    print(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
+                    logging.debug(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
             except websockets.exceptions.ConnectionClosed as e:
-                print(f"Connection closed: {e}")
+                logging.debug(f"Connection closed: {e}")
                 break
             except json.JSONDecodeError as e:
-                print(f"Failed to decode JSON: {e}")
+                logging.debug(f"Failed to decode JSON: {e}")
                 continue
 
 # This is the main function. It will first get the invoice with get_invoice(), then evoke listen_for_payment(). If within sixty seconds the invoice is not paid, it will shut down.
 async def payment(tray):
-    print(f"Getting invoice for tray {tray} ({label[tray]})")
+    logging.debug(f"Getting invoice for tray {tray} ({label[tray]})")
     get_invoice(params, headers, tray)
     try:
         await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=expiry)
     except asyncio.TimeoutError:
-        print("Invoice expired")
+        logging.info("Invoice expired")
+        idlescreen()
     finally:
-        print("Cycle complete")
+        logging.info("Cycle complete")
