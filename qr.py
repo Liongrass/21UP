@@ -9,7 +9,6 @@ from waveshare_epd import epd3in52b
 canvas_width = epd3in52b.EPD_WIDTH
 canvas_height = epd3in52b.EPD_HEIGHT
 canvas = Image.new('1', (canvas_width, canvas_height), 'white')
-canvas.save('canvas.png')
 
 def make_qrcode(invoice):
     qr = qrcode.QRCode(
