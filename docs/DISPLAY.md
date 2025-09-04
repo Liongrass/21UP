@@ -1,0 +1,43 @@
+Waveshare e-ink display
+
+The 21UP machine uses a 3.52in e-ink display. The display can show a 360x240px image in white, black and red.
+
+To show an image the machine would like to be presented with two BMP files in 1-bit mode, one for red, and one for black. All colors always have to be defined, even if they are not used in the final image. It takes about ~18s to show any image, and this cannot be sped up. This represents the primary frustrating with using the e-ink display.
+
+While the device hypothetically supports a "partial refresh," this does not seem to be supported in the python package provided. Such a partial refresh would be useful, as would be the option to show only a single-color image.
+
+The display consumes the following pins: `3.3V, GND, 10, 11, 8, 25, 17, 24`
+
+## Prepare an image
+
+To make suitable BMP images, I have found both [Gimp](https://www.gimp.org) and the python Pillow library useful.
+
+### Python
+
+In python we can use the function `img = img.convert("1")` in Pillow to convert any image to 1-bit format. As long as the canvas is a 360x240px frame, the e-ink screen should display it. We can also use the `Image.new` function to make a new image in 1-bit format, or load a bmp from disk.
+
+```python
+from PIL import Image
+from waveshare_epd import epd3in52b
+
+canvas = Image.new('1', (canvas_width, canvas_height), 'white')
+UPForeverB = Image.open(os.path.join(picdir, '21UP_b.bmp'))
+
+epd.display(epd.getbuffer(UPForeverB), epd.getbuffer(canvas))
+```
+
+### Gimp
+
+In Gimp, you can change the color mode of any image to 1-bit by selecting Image > Mode > Indexed, then choose "Use black and white (1-bit) palette". 
+
+I achieved the best results by generating a black/white image first, then applying the 1-bit index and not applying dithering at all. With dithering, my images always appeared grainy, no matter what I did.
+
+Remember that you will have to generate two images, one where black represents black, and another where black represents red. Black and Red may overlap.
+
+Finally, export your file as a `.bmp` file.
+
+### Magick
+
+I also made experiences with [Magick](https://imagemagick.org), [this guide](https://learn.adafruit.com/preparing-graphics-for-e-ink-displays/command-line) and the following command:
+
+`./magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 360x240 BMP3:output.bmp`

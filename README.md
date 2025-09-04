@@ -22,7 +22,7 @@ Bugs:
 - Keyboard interrupt throws an error when invoice is open
 - Screen doesn't clear on shutdown
 
-Prerequisites:
+## Prerequisites:
 
 Enable the SPI interface:
 
@@ -30,7 +30,7 @@ Enable the SPI interface:
 
 Then select Interfacing Options -> SPI -> Yes to enable the SPI interface
 
-Installation:
+## Installation:
 
 `git clone https://github.com/Liongrass/21UP.git`
 
@@ -42,6 +42,14 @@ Installation:
 
 `pip install -r requirements.txt`
 
-Run 21UP:
+## Run 21UP:
 
 `python main.py`
+
+### Further documentation
+
+[E-ink display user manual](/docs/3.52inch-e-Paper_(B)-user-manual.pdf)
+
+[E-ink display circuit schema](/docs/3.52inch_e-Paper_HAT.pdf)
+
+[Display Guide](/docs/DISPLAY.md)
