@@ -26,6 +26,7 @@ async def listener():
             logging.info(f"Pin {pin_in[tray]} pressed. Fetching payment for tray {tray}")
             logging.debug(item)
             await payment(tray)
+            logging.info(f"listening on pins {pin_in}")
         # if an event remains high for more than 0.5 sec it might
         # be counted again on the next loop. Likewise if an event
         # comes and goes before the next loop it will be missed.

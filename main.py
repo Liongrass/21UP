@@ -4,7 +4,8 @@ import logging
 
 # Functions and variables
 from button import listener
-from display import idlescreen, initialize, screencleanup
+from display import epd, idlescreen, initialize
+from waveshare_epd import epd3in52b
 
 ####### MAIN ########
 
@@ -18,8 +19,8 @@ async def main():
 		await listener()
 
 	except KeyboardInterrupt:
-		logging.info("Keyboard Interrupt detected")
-		screencleanup()
+		logging.info("Shutting down screen")
+		epd3in52b.epdconfig.module_exit(cleanup=True)
 		exit()
 
 

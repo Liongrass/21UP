@@ -19,7 +19,8 @@ To be implemented:
 
 Bugs:
 
-- Keyboard interrupt throws an error while invoice is open
+- Keyboard interrupt throws an error when invoice is open
+- Screen doesn't clear on shutdown
 
 Prerequisites:
 

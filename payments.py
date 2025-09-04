@@ -9,7 +9,7 @@ import websockets
 from dispense import trigger
 from display import idlescreen, invoicescreen
 from qr import make_qrcode
-from var import amount, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
+from var import amount, display_expiry, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
 
 
 ####### VARIABLES ########
@@ -24,8 +24,8 @@ def params(tray):
                   "amount": amount[tray],
                   "unit": unit[tray],
                   "memo": memo_str.format(label=label[tray],amount=amount[tray],unit=unit[tray]),
-                  "expiry": expiry}
-        # print(params)
+                  "expiry": expiry + display_expiry}
+        logging.debug(f"Invoice parameters: {params}")
         return params
 
 headers = {"X-Api-Key" : x_api_key,

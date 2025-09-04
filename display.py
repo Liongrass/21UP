@@ -30,12 +30,11 @@ def initialize():
 def idlescreen():
 	epd.display(epd.getbuffer(UPForeverB), epd.getbuffer(UPForeverR))
 	logging.info("Showing idlescreen")
+	epd.sleep()
+	logging.debug("Putting screen to sleep")
 
 def invoicescreen(qr_image):
+	initialize()
+	logging.debug("Initializing screen")
 	epd.display(epd.getbuffer(qr_image), epd.getbuffer(blankscreen))
 	logging.info("Showing invoicescreen")
-
-def screencleanup():
-	epd.Clear()
-	epd3in52b.epdconfig.module_exit(cleanup=True)
-	logging.info("Screen cleaned up")

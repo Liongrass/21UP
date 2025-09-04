@@ -24,7 +24,7 @@ def make_qrcode(invoice):
     x_center = (canvas_width - img.width) // 2
     y_center = (canvas_height - img.height) // 2
     paste_box = (x_center, y_center, x_center + img.width, y_center + img.height)
-    logging.debug(paste_box)
+    logging.debug(f"QR coordinates {paste_box}")
     global qr_image
     qr_image = canvas
     qr_image.paste(img, paste_box)
