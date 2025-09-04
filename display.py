@@ -19,7 +19,7 @@ UPForeverB = Image.open(os.path.join(picdir, '21UP_b.bmp'))
 UPForeverR = Image.open(os.path.join(picdir, '21UP_r.bmp'))
 blankscreen = Image.open(os.path.join(picdir, 'white.bmp'))
 
-def initalize():
+def initialize():
 	try:
 		logging.debug("epd3in52b")
 		logging.info("Starting display init")

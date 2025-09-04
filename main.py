@@ -4,7 +4,7 @@ import logging
 
 # Functions and variables
 from button import listener
-from display import idlescreen, initalize, screencleanup
+from display import idlescreen, initialize, screencleanup
 
 ####### MAIN ########
 
@@ -13,7 +13,7 @@ from display import idlescreen, initalize, screencleanup
 async def main():
 	try:
 		logging.info("Starting up")
-		initalize()
+		initialize()
 		idlescreen()
 		await listener()
 

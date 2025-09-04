@@ -20,7 +20,6 @@ To be implemented:
 Bugs:
 
 - Keyboard interrupt throws an error while invoice is open
-- Initialize is spelled incorrectly
 
 Prerequisites:
 
