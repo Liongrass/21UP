@@ -3,13 +3,14 @@ import asyncio
 import json
 import logging
 import requests
+from time import sleep
 import websockets
 
 # Functions and variables
 from dispense import trigger
-from display import idlescreen, invoicescreen
+from display import idlescreen, invoicescreen, successscreen, failurescreen
 from qr import make_qrcode
-from var import amount, display_expiry, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
+from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
 
 
 ####### VARIABLES ########
@@ -54,8 +55,10 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
+                    successscreen()
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
                     trigger(pin_out, tray)
+                    sleep(suceess_screen_expiry)
                     idlescreen()
                     break
                 else:
@@ -72,9 +75,13 @@ async def payment(tray):
     logging.debug(f"Getting invoice for tray {tray} ({label[tray]})")
     get_invoice(params, headers, tray)
     try:
-        await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=expiry)
+        timeout = expiry + suceess_screen_expiry + display_expiry + 3
+        await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=timeout)
     except asyncio.TimeoutError:
-        logging.info("Invoice expired")
+        logging.info(f"Invoice expired after {expiry}s")
+        logging.debug(f"Timeout reached after {timeout}s")
+        failurescreen()
+        sleep(5)
         idlescreen()
     finally:
         logging.info("Cycle complete")

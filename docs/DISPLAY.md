@@ -1,10 +1,10 @@
-Waveshare e-ink display
+# Waveshare e-ink display
 
-The 21UP machine uses a 3.52in e-ink display. The display can show a 360x240px image in white, black and red.
+The 21UP machine uses a 3.52in e-ink display. The display can show a 480x280px image in white, black and red.
 
 To show an image the machine would like to be presented with two BMP files in 1-bit mode, one for red, and one for black. All colors always have to be defined, even if they are not used in the final image. It takes about ~18s to show any image, and this cannot be sped up. This represents the primary frustrating with using the e-ink display.
 
-While the device hypothetically supports a "partial refresh," this does not seem to be supported in the python package provided. Such a partial refresh would be useful, as would be the option to show only a single-color image.
+The device supports a "partial refresh," which can be very useful when speed is an issue. However, the device is not properly wiped, meaning this should be tested thoroughly and cannot always be relied on.
 
 The display consumes the following pins: `3.3V, GND, 10, 11, 8, 25, 17, 24`
 
@@ -14,7 +14,7 @@ To make suitable BMP images, I have found both [Gimp](https://www.gimp.org) and 
 
 ### Python
 
-In python we can use the function `img = img.convert("1")` in Pillow to convert any image to 1-bit format. As long as the canvas is a 360x240px frame, the e-ink screen should display it. We can also use the `Image.new` function to make a new image in 1-bit format, or load a bmp from disk.
+In python we can use the function `img = img.convert("1")` in Pillow to convert any image to 1-bit format. As long as the canvas is a 480x280px frame, the e-ink screen should display it. We can also use the `Image.new` function to make a new image in 1-bit format, or load a bmp from disk.
 
 ```python
 from PIL import Image
@@ -40,4 +40,4 @@ Finally, export your file as a `.bmp` file.
 
 I also made experiences with [Magick](https://imagemagick.org), [this guide](https://learn.adafruit.com/preparing-graphics-for-e-ink-displays/command-line) and the following command:
 
-`./magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 360x240 BMP3:output.bmp`
+`./magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 480x280 BMP3:output.bmp`

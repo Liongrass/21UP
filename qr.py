@@ -4,10 +4,11 @@ from PIL import Image
 import qrcode
 
 from display import invoicescreen
-from waveshare_epd import epd3in52b
+from waveshare_epd import epd3in7
 
-canvas_width = epd3in52b.EPD_WIDTH
-canvas_height = epd3in52b.EPD_HEIGHT
+# Not a typo. With this screen, the width is the height, and vice versa.
+canvas_width = epd3in7.EPD_HEIGHT
+canvas_height = epd3in7.EPD_WIDTH
 canvas = Image.new('1', (canvas_width, canvas_height), 'white')
 
 def make_qrcode(invoice):

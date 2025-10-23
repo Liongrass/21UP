@@ -15,7 +15,8 @@ lnbits_server = os.getenv("LNBITS_SERVER", "send.laisee.org")
 
 memo_str = os.getenv("MEMO_STRING", "Thank you for your purchase from 21UP!")
 expiry = int(os.getenv("INVOICE_EXPIRY", 60))
-display_expiry = int(os.getenv("DISPLAY_DELAY", 20))
+display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
+suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
 
 debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
 

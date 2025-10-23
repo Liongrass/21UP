@@ -6,21 +6,19 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 
 Currently being implemented:
 - The display now has all the basic functionality, but needs to go to sleep eventually, and be re-initialized before being refreshed
-- Adjust invoice expiration time to accommodate for ~20s delay in display
+- Using partial refresh, the machine should show a quick notice when before an invoice is being fetched
+- Display item name and price underneath the QR code
 
 To be implemented:
-- Display item name and price underneath the QR code
 - Keep listening for the button even when an invoice is currently pending.
 - Cancel the current invoice when a button is pressed
 - Make a setup.py file
-- Speed up display
-- Show success and failure messages on-screen
 - Cleanup pins when program is exited
+- Main screen doesn't wake up
 
 Bugs:
 
 - Keyboard interrupt throws an error when invoice is open
-- Screen doesn't clear on shutdown
 
 ## Prerequisites:
 
