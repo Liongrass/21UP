@@ -61,3 +61,10 @@ logging.debug(f"Pin Out: {pin_out}")
 ##### SYSTEM #####
 button_delay = float(os.getenv("BUTTON_DELAY", 500)) / 1000
 relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
+
+##### DISPLAY #####
+
+picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
+libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)

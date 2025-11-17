@@ -4,14 +4,9 @@ import os
 import sys
 from time import sleep
 
-
-picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
-libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
-
 # Functions and variables
 from PIL import Image, ImageDraw, ImageFont
+from var import libdir, picdir
 from waveshare_epd import epd3in7
 
 epd = epd3in7.EPD()
@@ -27,31 +22,36 @@ def initialize():
 def idlescreen():
 	try:
 		logging.info("2.read 4 Gray bmp file")
-		#Idleimage = Image.open(os.path.join(picdir, '21UP480x280.bmp'))
 		Idleimage = Image.open(os.path.join(picdir, '21UP_v.bmp'))
-		#Idleimage =  Idleimage.transpose(Image.TRANSPOSE)
 		epd.display_4Gray(epd.getbuffer_4Gray(Idleimage))
 		epd.sleep()
 	except IOError as e:
 		logging.info(e)
 
-def invoicescreen(qr_image):
-	initialize()
-	logging.debug("Initializing screen")
-	#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
-	epd.display_1Gray(epd.getbuffer(qr_image))
-	logging.info("Showing invoicescreen")
+def descriptionscreen(description_img): 
+	try:
+		initialize()
+		epd.display_1Gray(epd.getbuffer(description_img))
+		logging.info("Showing descriptionscreen")
+	except IOError as e:
+		logging.info(e)
 
-def successscreen():
-	logging.debug("Initializing fuccess screen")
-	Successimage = Image.open(os.path.join(picdir, 'tick480x280.bmp'))
-	epd.display_1Gray(epd.getbuffer(Successimage))
+def invoicescreen(qr_image):
+	try:
+		#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
+		epd.display_1Gray(epd.getbuffer(qr_image))
+		logging.info("Showing invoicescreen")
+	except IOError as e:
+		logging.info(e)
+
+def successscreen(success_img):
+	logging.debug("Initializing success screen")
+	epd.display_1Gray(epd.getbuffer(success_img))
 	logging.info("Showing success screen")
 
-def failurescreen():
+def failurescreen(failure_img):
 	logging.debug("Initializing failure screen")
-	Successimage = Image.open(os.path.join(picdir, 'cross480x280.bmp'))
-	epd.display_1Gray(epd.getbuffer(Successimage))
+	epd.display_1Gray(epd.getbuffer(failure_img))
 	logging.info("Showing failure screen")
 
 def shutdown():
