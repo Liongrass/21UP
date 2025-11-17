@@ -7,8 +7,8 @@ from display import invoicescreen
 from waveshare_epd import epd3in7
 
 # Not a typo. With this screen, the width is the height, and vice versa.
-canvas_width = epd3in7.EPD_HEIGHT
-canvas_height = epd3in7.EPD_WIDTH
+canvas_width = epd3in7.EPD_WIDTH
+canvas_height = epd3in7.EPD_HEIGHT
 canvas = Image.new('1', (canvas_width, canvas_height), 'white')
 
 def make_qrcode(invoice):
@@ -24,7 +24,7 @@ def make_qrcode(invoice):
     img = img.convert("1")
     x_center = (canvas_width - img.width) // 2
     y_center = (canvas_height - img.height) // 2
-    paste_box = (x_center, y_center, x_center + img.width, y_center + img.height)
+    paste_box = (x_center, y_center+ 100, x_center + img.width, y_center + img.height + 100)
     logging.debug(f"QR coordinates {paste_box}")
     global qr_image
     qr_image = canvas

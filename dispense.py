@@ -5,13 +5,14 @@ from time import sleep
 
 # Functions and variables
 from var import pin_out, relay_duration
-device = [OutputDevice(pin, initial_value=False) for pin in pin_out]
+
+device = [OutputDevice(pin, initial_value=True) for pin in pin_out]
 
 def trigger(pinOut, tray):
 	logging.debug(device[tray])
 	logging.info(f"Dispensing tray {tray} at pin {pin_out[tray]}")
-	device[tray].on()
+	device[tray].off()
 	logging.debug(f"waiting {relay_duration}s")
 	sleep(relay_duration)
 	logging.info(f"Done dispensing tray {tray}")
-	device[tray].off()
+	device[tray].on()
