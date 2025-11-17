@@ -4,7 +4,7 @@ import logging
 
 # Functions and variables
 from button import listener
-from display import epd, idlescreen, initialize
+from display import epd, idlescreen, initialize, shutdown
 from waveshare_epd import epd3in7
 
 ####### MAIN ########
@@ -19,11 +19,7 @@ async def main():
 		await listener()
 
 	except KeyboardInterrupt:
-		logging.info("Shutting down screen")
-		epd.init(0)
-		epd.Clear(0xFF, 0)
-		epd3in7.epdconfig.module_exit(cleanup=True)
-		exit()
+		shutdown()
 
 
 asyncio.run(main())

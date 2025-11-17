@@ -8,7 +8,7 @@ import websockets
 
 # Functions and variables
 from dispense import trigger
-from display import idlescreen, invoicescreen, successscreen, failurescreen
+from display import idlescreen, invoicescreen, successscreen, failurescreen, shutdown
 from qr import make_qrcode
 from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
 
@@ -77,6 +77,8 @@ async def payment(tray):
     try:
         timeout = expiry + suceess_screen_expiry + display_expiry + 3
         await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=timeout)
+    except asyncio.CancelledError:
+        shutdown()
     except asyncio.TimeoutError:
         logging.info(f"Invoice expired after {expiry}s")
         logging.debug(f"Timeout reached after {timeout}s")

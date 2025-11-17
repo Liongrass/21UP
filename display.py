@@ -27,7 +27,9 @@ def initialize():
 def idlescreen():
 	try:
 		logging.info("2.read 4 Gray bmp file")
-		Idleimage = Image.open(os.path.join(picdir, '21UP480x280.bmp'))
+		#Idleimage = Image.open(os.path.join(picdir, '21UP480x280.bmp'))
+		Idleimage = Image.open(os.path.join(picdir, '21UP_v.bmp'))
+		#Idleimage =  Idleimage.transpose(Image.TRANSPOSE)
 		epd.display_4Gray(epd.getbuffer_4Gray(Idleimage))
 		epd.sleep()
 	except IOError as e:
@@ -36,7 +38,8 @@ def idlescreen():
 def invoicescreen(qr_image):
 	initialize()
 	logging.debug("Initializing screen")
-	epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
+	#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
+	epd.display_1Gray(epd.getbuffer(qr_image))
 	logging.info("Showing invoicescreen")
 
 def successscreen():
@@ -50,3 +53,10 @@ def failurescreen():
 	Successimage = Image.open(os.path.join(picdir, 'cross480x280.bmp'))
 	epd.display_1Gray(epd.getbuffer(Successimage))
 	logging.info("Showing failure screen")
+
+def shutdown():
+	logging.info("Shutting down screen")
+	epd.init(0)
+	epd.Clear(0xFF, 0)
+	epd3in7.epdconfig.module_exit(cleanup=True)
+	exit()
