@@ -17,7 +17,7 @@ async def listener():
     while True:
         detected = False
         for btn in buttons:
-            if btn.is_pressed:
+            if not btn.is_held and btn.is_pressed:
                 detected = True
                 global tray
                 tray = buttons.index(btn)
