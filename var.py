@@ -65,6 +65,8 @@ relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####
 
+show_display = os.getenv("SHOWDISPLAY", True)
+
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):

@@ -10,7 +10,7 @@ import websockets
 from dispense import trigger
 from display import idlescreen, invoicescreen, shutdown
 from qr import make_qrcode, make_success_img, make_failure_img
-from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, unit, x_api_key
+from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 
 
 ####### VARIABLES ########
@@ -40,7 +40,8 @@ def get_invoice(params, headers, tray):
         invoice = invoice_request.json()
         logging.debug(invoice)
         logging.info(invoice["bolt11"])
-        make_qrcode(invoice)
+        if show_display == True:
+            make_qrcode(invoice)
     except Exception as e:
         print(e)
         return
@@ -55,11 +56,13 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
-                    make_success_img()
+                    if show_display == True:
+                        make_success_img()
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
                     trigger(pin_out, tray)
                     sleep(suceess_screen_expiry)
-                    idlescreen()
+                    if show_display == True:
+                        idlescreen()
                     break
                 else:
                     logging.debug(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
@@ -78,12 +81,16 @@ async def payment(tray):
         timeout = expiry + suceess_screen_expiry + display_expiry + 3
         await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=timeout)
     except asyncio.CancelledError:
-        shutdown()
+        if show_display == True:
+            shutdown()
+        exit()
     except asyncio.TimeoutError:
         logging.info(f"Invoice expired after {expiry}s")
         logging.debug(f"Timeout reached after {timeout}s")
-        make_failure_img()
+        if show_display == True:
+            make_failure_img()
         sleep(5)
-        idlescreen()
+        if show_display == True:
+            idlescreen()
     finally:
         logging.info("Cycle complete")
