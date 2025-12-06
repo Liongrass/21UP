@@ -66,7 +66,8 @@ def errorscreen():
 	logging.debug("Initializing error screen")
 	error_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
 	draw = ImageDraw.Draw(error_img)
-		draw.text((200, 205 + i*40), "Error obtaining invoice.\n Is the server up?\n Check logs for details.", font = fontA)
+	string = "Error obtaining invoice.\n Is the server up?\n Check logs for details."
+	draw.text((16, 205 + 40), string, font = fontA)
 	epd.display_1Gray(epd.getbuffer(error_img))
 	logging.info("Showing error screen")
 

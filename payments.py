@@ -102,3 +102,6 @@ async def payment(tray):
         logging.error("Error obtaining invoice. Check logs for details.")
         if show_display == True:
             errorscreen()
+            sleep(5)
+            idlescreen()
+            return

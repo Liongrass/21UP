@@ -4,12 +4,15 @@ import json
 import logging
 import os
 import sys
+import time
 import traceback
 from PIL import ImageFont
 
 ##### VARIABLES #####
 
 load_dotenv()
+
+start_time = time.time()
 
 x_api_key = os.getenv("LNBITS_INVOICE_KEY")
 lnbits_server = os.getenv("LNBITS_SERVER", "send.laisee.org")
@@ -49,6 +52,7 @@ logging.debug(f"Unit: {unit}")
 logging.debug(f"Pin In: {pin_in}")
 logging.debug(f"Pin Out: {pin_out}")
 
+pin_hot = int(os.getenv('HOTPIN'))
 
 # pinOut=5  # CH1
 # pinOut=6  # CH2
@@ -65,7 +69,7 @@ relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####
 
-show_display = os.getenv("SHOWDISPLAY", True)
+show_display = bool(os.getenv("SHOWDISPLAY", True))
 
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')

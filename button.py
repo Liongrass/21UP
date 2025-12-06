@@ -3,21 +3,26 @@ import asyncio
 from gpiozero import Button
 import logging
 from time import sleep
+import time
 
 # Functions and variables
 from payments import payment
 from qr import make_description
-from var import pin_in, button_delay
+from var import pin_in, button_delay, start_time
 
 # Set up GPIO
-buttons = [Button(btn, pull_up=False) for btn in pin_in]
+buttons = [Button(btn, pull_up=False, hold_time=2) for btn in pin_in]
 
 async def listener():
     logging.info(f"listening on pins {pin_in}")
     while True:
         detected = False
+        #logging.debug(start_time)
+        #logging.debug(time.time() - start_time)
+        #runtime = (time.time() - start_time)
         for btn in buttons:
-            if not btn.is_held and btn.is_pressed:
+            if btn.is_pressed and not btn.is_held:
+                logging.debug(f"{btn} HERE {btn.held_time}")
                 detected = True
                 global tray
                 tray = buttons.index(btn)

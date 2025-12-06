@@ -1,6 +1,7 @@
 # Modules
 import asyncio
 import logging
+from time import sleep
 
 # Functions and variables
 from button import listener
@@ -15,7 +16,6 @@ from var import show_display
 async def main():
 	try:
 		logging.info("Starting up")
-		print(show_display)
 		if show_display == True:
 			initialize()
 			idlescreen()
