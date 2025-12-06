@@ -42,7 +42,46 @@ Then select Interfacing Options -> SPI -> Yes to enable the SPI interface
 
 ## Run 21UP:
 
+To run the machine first copy the example configuration file. Most importantly, a valid LNbits URL and invoice key need to be set.
+
+`cp .env.example .env`
+
 `python main.py`
+
+## Deploying as a service
+
+To make the code run on startup and restart after a crash, we are using the PM2 utility.
+
+### Install PM2
+
+Prerequisites:
+
+`sudo apt install git make build-essential`
+
+`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash`
+
+`\. "$HOME/.nvm/nvm.sh"`
+
+`nvm install 24`
+
+`npm install -g pm2`
+
+### Persist 21UP
+
+`pm2 start /home/user/21UP/main.py --interpreter /home/user/21UP/env/bin/python --name 21UP --exp-backoff-restart-delay=100`
+
+`pm2 startup`
+
+This will give you a short command. Execute it to make 21UP run on startup.
+
+Useful commands:
+
+```
+pm2 logs 21UP
+pm2 list
+pm2 monit
+pm2 restart 21UP
+```
 
 ### Further documentation
 
@@ -51,3 +90,5 @@ Then select Interfacing Options -> SPI -> Yes to enable the SPI interface
 [E-ink display circuit schema](/docs/3.52inch_e-Paper_HAT.pdf)
 
 [Display Guide](/docs/DISPLAY.md)
+
+[Pin Inventory](/docs/pins.ods)
