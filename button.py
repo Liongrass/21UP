@@ -3,7 +3,6 @@ import asyncio
 from gpiozero import Button
 import logging
 from time import sleep
-import time
 
 # Functions and variables
 from payments import payment
@@ -17,9 +16,6 @@ async def listener():
     logging.info(f"listening on pins {pin_in}")
     while True:
         detected = False
-        #logging.debug(start_time)
-        #logging.debug(time.time() - start_time)
-        #runtime = (time.time() - start_time)
         for btn in buttons:
             if btn.is_pressed and not btn.is_held:
                 logging.debug(f"{btn} HERE {btn.held_time}")

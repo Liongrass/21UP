@@ -1,7 +1,6 @@
 # Modules
 import asyncio
 import logging
-from time import sleep
 
 # Functions and variables
 from button import listener
