@@ -93,7 +93,7 @@ async def payment(tray):
             logging.debug(f"Timeout reached after {timeout}s")
             if show_display == True:
                 make_failure_img()
-            sleep(5)
+            sleep(display_expiry)
             if show_display == True:
                 idlescreen()
         finally:
@@ -102,6 +102,6 @@ async def payment(tray):
         logging.error("Error obtaining invoice. Check logs for details.")
         if show_display == True:
             errorscreen()
-            sleep(5)
+            sleep(display_expiry)
             idlescreen()
             return
