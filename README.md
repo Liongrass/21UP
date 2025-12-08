@@ -18,7 +18,7 @@ To be implemented:
 
 Bugs:
 
-- No bugs known. Please make an issue!
+- When the second Optocoupler is attached, a button held registers as a button pressed. This causes the machine to loop indefinitely showing invoices for the empty tray.
 
 ## Prerequisites:
 

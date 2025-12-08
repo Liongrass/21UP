@@ -15,9 +15,13 @@ from var import show_display
 async def main():
 	try:
 		logging.info("Starting up")
+		logging.info(f"Display: {show_display}")
 		if show_display == True:
+			logging.info("Display is enabled.")
 			initialize()
 			idlescreen()
+		else:
+			logging.info("Display is disabled.")
 		await listener()
 
 	except KeyboardInterrupt:

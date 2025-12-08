@@ -52,8 +52,6 @@ logging.debug(f"Unit: {unit}")
 logging.debug(f"Pin In: {pin_in}")
 logging.debug(f"Pin Out: {pin_out}")
 
-pin_hot = int(os.getenv('HOTPIN'))
-
 # pinOut=5  # CH1
 # pinOut=6  # CH2
 # pinOut=13 # CH3
@@ -69,7 +67,7 @@ relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####
 
-show_display = bool(os.getenv("SHOWDISPLAY", True))
+show_display = os.getenv("SHOWDISPLAY", True).lower() in ('true', '1', 't')
 
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
