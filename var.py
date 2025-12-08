@@ -28,6 +28,8 @@ file_handler = logging.FileHandler('21UP.log')
 stdout_handler = logging.StreamHandler(sys.stdout)
 handlers = [file_handler, stdout_handler]
 
+production = os.getenv("PRODUCTION", True).lower() in ('true', '1', 't')
+
 logging.basicConfig(handlers=handlers, format='%(asctime)s %(levelname)s - %(message)s', level=debuglevel)
 logging.info(f"Setting debug level at {debuglevel}")
 

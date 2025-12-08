@@ -6,7 +6,6 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 
 Currently being implemented:
 - Using partial refresh, the machine should show a quick notice when before an invoice is being fetched
-- Make sure the "show display" setting actually works
 - Get an inventory list at startup and every time an item is dispensed
 
 To be implemented:

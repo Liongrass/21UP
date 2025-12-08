@@ -4,9 +4,9 @@ from gpiozero import OutputDevice
 from time import sleep
 
 # Functions and variables
-from var import pin_out, relay_duration
+from var import pin_out, relay_duration, production
 
-device = [OutputDevice(pin, initial_value=False) for pin in pin_out]
+device = [OutputDevice(pin, active_high=production, initial_value=False) for pin in pin_out]
 
 def trigger(pinOut, tray):
 	logging.debug(device[tray])
