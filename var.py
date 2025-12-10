@@ -77,9 +77,9 @@ if os.path.exists(libdir):
     sys.path.append(libdir)
 
 font_a = os.getenv("FONTA", "Font.ttc")
-font_b = os.getenv("FONTB", "SuperMagic-L3XVn.ttf")
+font_b = os.getenv("FONTB", "Rushfordclean.otf")
 fontsize_a = int(os.getenv("FONTSIZEA", 24))
-fontsize_b = int(os.getenv("FONTSIZEB", 24))
+fontsize_b = int(os.getenv("FONTSIZEB", 32))
 
 #font36 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 36)
 fontA = ImageFont.truetype(os.path.join(picdir, font_a), fontsize_a)
