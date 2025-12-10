@@ -3,7 +3,7 @@ import asyncio
 import logging
 
 # Functions and variables
-from button import listener
+from button import get_inventory, listener
 from display import epd, idlescreen, initialize, shutdown
 from waveshare_epd import epd3in7
 from var import show_display
@@ -15,7 +15,7 @@ from var import show_display
 async def main():
 	try:
 		logging.info("Starting up")
-		logging.info(f"Display: {show_display}")
+		get_inventory()
 		if show_display == True:
 			logging.info("Display is enabled.")
 			initialize()
@@ -28,6 +28,5 @@ async def main():
 		if show_display == True:
 			shutdown()
 		exit()
-
 
 asyncio.run(main())

@@ -28,14 +28,14 @@ def get_inventory():
         else:
             logging.debug(f"Tray {tray} at pin {pin_in[tray]} is {inventory_label[btn.value]}. Item: {label[tray]}")
     inventory = list(init_inventory)
-    #logging.debug(inventory)
+    logging.debug(f"Inventory: {inventory}")
 
 async def listener():
     logging.info(f"listening on pins {pin_in}")
     while True:
         detected = False
         for btn in buttons:
-            if btn.is_pressed and not btn.is_held and inventory[buttons.index(btn)] == 0:
+            if btn.is_pressed and inventory[buttons.index(btn)] == 0:
                 logging.debug(f"{btn} HERE {btn.held_time}")
                 detected = True
                 global tray
