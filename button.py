@@ -13,6 +13,8 @@ from var import pin_in, button_delay, label, start_time, show_display
 buttons = [Button(btn, pull_up=False, hold_time=2) for btn in pin_in]
 inventory_label = ["full", "empty"]
 
+# A function that will check for each incoming pin whether there is a signal.
+# A signal means that the tray is empty.
 def get_inventory():
     logging.info(f"Obtaining inventory for pins {pin_in}")
     init_inventory = []
@@ -21,7 +23,10 @@ def get_inventory():
         inventory = init_inventory.append(btn.value)
         tray = buttons.index(btn)
         item = btn
-        logging.debug(f"Tray {tray} at pin {pin_in[tray]} is {inventory_label[btn.value]}. Item: {label[tray]}")
+        if btn.value ==1:
+            logging.info(f"Tray {tray} at pin {pin_in[tray]} is {inventory_label[btn.value]}. Item: {label[tray]}")
+        else:
+            logging.debug(f"Tray {tray} at pin {pin_in[tray]} is {inventory_label[btn.value]}. Item: {label[tray]}")
     inventory = list(init_inventory)
     #logging.debug(inventory)
 
