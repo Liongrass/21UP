@@ -39,7 +39,7 @@ def get_invoice(params, headers, tray):
         invoice_request.raise_for_status()
         global invoice
         invoice = invoice_request.json()
-        logging.debug(f"INVOICE HERE: {invoice}")
+        logging.debug(f"{invoice}")
         logging.info(invoice["bolt11"])
         if show_display == True:
             make_qrcode(invoice)

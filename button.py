@@ -11,11 +11,11 @@ from var import pin_in, button_delay, label, start_time, show_display
 
 # Set up GPIO
 buttons = [Button(btn, pull_up=False, hold_time=2) for btn in pin_in]
-init_inventory = []
 inventory_label = ["full", "empty"]
 
 def get_inventory():
     logging.info(f"Obtaining inventory for pins {pin_in}")
+    init_inventory = []
     for btn in buttons:
         global inventory
         inventory = init_inventory.append(btn.value)
@@ -23,7 +23,7 @@ def get_inventory():
         item = btn
         logging.debug(f"Tray {tray} at pin {pin_in[tray]} is {inventory_label[btn.value]}. Item: {label[tray]}")
     inventory = list(init_inventory)
-    logging.debug(inventory)
+    #logging.debug(inventory)
 
 async def listener():
     logging.info(f"listening on pins {pin_in}")
@@ -43,6 +43,7 @@ async def listener():
             if show_display == True:
                 make_description(tray)
             await payment(tray)
+            get_inventory()
             logging.info(f"listening on pins {pin_in}")
         # if an event remains high for more than 0.5 sec it might
         # be counted again on the next loop. Likewise if an event
