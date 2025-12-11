@@ -38,6 +38,23 @@ Finally, export your file as a `.bmp` file.
 
 ### Magick
 
+## Install Magick
+
+On a Raspberry Pi Magick has to be installed from source
+
+`sudo apt install libjpeg62-turbo-dev:armhf libjpeg62-turbo-dev`
+`sudo apt install libtiff-dev `
+
+`git clone https://github.com/ImageMagick/ImageMagick.git`
+`cd ImageMagick`
+`./configure`
+`make`
+`sudo make install`
+`sudo ldconfig /usr/local/lib`
+
+## Use Magick
+
 I also made experiences with [Magick](https://imagemagick.org), [this guide](https://learn.adafruit.com/preparing-graphics-for-e-ink-displays/command-line) and the following command:
 
-`./magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 480x280 BMP3:output.bmp`
+`magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 480x280 BMP3:output.bmp`
+`magick 21UP_4G.png -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink___epaper_eink-4gray.png -type truecolor -size 280x480 BMP3:21UP_4G.bmp`

@@ -6,7 +6,6 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 
 Currently being implemented:
 - Using partial refresh, the machine should show a quick notice when before an invoice is being fetched
-- Get an inventory list at startup and every time an item is dispensed
 
 To be implemented:
 - Keep listening for the button even when an invoice is currently pending.
@@ -17,7 +16,7 @@ To be implemented:
 
 Bugs:
 
-- When the second Optocoupler is attached, a button held registers as a button pressed. This causes the machine to loop indefinitely showing invoices for the empty tray.
+- No known bugs
 
 ## Prerequisites:
 
