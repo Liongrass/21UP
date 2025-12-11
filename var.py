@@ -14,13 +14,7 @@ load_dotenv()
 
 start_time = time.time()
 
-x_api_key = os.getenv("LNBITS_INVOICE_KEY")
-lnbits_server = os.getenv("LNBITS_SERVER", "send.laisee.org")
-
-memo_str = os.getenv("MEMO_STRING", "Thank you for your purchase from 21UP!")
-expiry = int(os.getenv("INVOICE_EXPIRY", 60))
-display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
-suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
+##### SYSTEM #####
 
 debuglevel = os.getenv("DEBUG_LEVEL", "INFO")
 
@@ -28,10 +22,18 @@ file_handler = logging.FileHandler('21UP.log')
 stdout_handler = logging.StreamHandler(sys.stdout)
 handlers = [file_handler, stdout_handler]
 
-production = os.getenv("PRODUCTION", True).lower() in ('true', '1', 't')
-
 logging.basicConfig(handlers=handlers, format='%(asctime)s %(levelname)s - %(message)s', level=debuglevel)
 logging.info(f"Setting debug level at {debuglevel}")
+
+production = os.getenv("PRODUCTION", True).lower() in ('true', '1', 't')
+
+##### INVOICES #####
+
+x_api_key = os.getenv("LNBITS_INVOICE_KEY")
+lnbits_server = os.getenv("LNBITS_SERVER", "send.laisee.org")
+
+memo_str = os.getenv("MEMO_STRING", "Thank you for your purchase from 21UP!")
+expiry = int(os.getenv("INVOICE_EXPIRY", 60))
 
 ##### TRAYS #####
 
@@ -54,22 +56,15 @@ logging.debug(f"Unit: {unit}")
 logging.debug(f"Pin In: {pin_in}")
 logging.debug(f"Pin Out: {pin_out}")
 
-# pinOut=5  # CH1
-# pinOut=6  # CH2
-# pinOut=13 # CH3
-# pinOut=16 # CH4
-# pinOut=19 # CH5
-# pinOut=20 # CH6
-# pinOut=21 # CH7
-# pinOut=26 # CH8
-
-##### SYSTEM #####
 button_delay = float(os.getenv("BUTTON_DELAY", 500)) / 1000
 relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####
 
 show_display = os.getenv("SHOWDISPLAY", True).lower() in ('true', '1', 't')
+
+display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
+suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
 
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
