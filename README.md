@@ -20,6 +20,8 @@ Bugs:
 
 ## Prerequisites:
 
+This guide and the code are optimized for Rasperry Pi OS (Bookworm).
+
 Enable the SPI interface:
 
 `sudo raspi-config`
@@ -40,9 +42,16 @@ Then select Interfacing Options -> SPI -> Yes to enable the SPI interface
 
 ## Run 21UP:
 
-To run the machine first copy the example configuration file. Most importantly, a valid LNbits URL and invoice key need to be set.
+To run the machine, first copy the example configuration file.
 
 `cp .env.example .env`
+
+Most importantly, a valid LNbits URL and invoice key need to be set.
+Variables pre-fixed with a `#` sign have defaults and do not need to be set.
+
+`nano .env`
+
+Run the machine:
 
 `python main.py`
 
@@ -83,9 +92,9 @@ pm2 restart 21UP
 
 ### Further documentation
 
-[E-ink display user manual](/docs/3.52inch-e-Paper_(B)-user-manual.pdf)
+[E-ink display user manual](/docs/3.7inch_e-Paper_Specification.pdf)
 
-[E-ink display circuit schema](/docs/3.52inch_e-Paper_HAT.pdf)
+[E-ink display circuit schema](/docs/3.7inch_e-Paper_Schematic.pdf)
 
 [Display Guide](/docs/DISPLAY.md)
 

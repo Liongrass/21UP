@@ -58,3 +58,4 @@ I also made experiences with [Magick](https://imagemagick.org), [this guide](htt
 
 `magick input.jpg -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink-2color.png -type truecolor -size 480x280 BMP3:output.bmp`
 `magick 21UP_4G.png -dither FloydSteinberg -define dither:diffusion-amount=85% -remap eink___epaper_eink-4gray.png -type truecolor -size 280x480 BMP3:21UP_4G.bmp`
+`magick 21UP_4G.png -remap eink___epaper_eink-4gray.png BMP3:21UP_4G.bmp`
