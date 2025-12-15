@@ -41,8 +41,7 @@ def get_invoice(params, headers, tray):
         invoice = invoice_request.json()
         logging.debug(f"{invoice}")
         logging.info(invoice["bolt11"])
-        if show_display == True:
-            make_qrcode(invoice)
+        make_qrcode(invoice)
     except Exception as e:
         logging.debug(f"ERROR {e}")
         return
@@ -57,13 +56,11 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
-                    if show_display == True:
-                        make_success_img()
+                    make_success_img()
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
                     trigger(pin_out, tray)
                     sleep(suceess_screen_expiry)
-                    if show_display == True:
-                        idlescreen()
+                    idlescreen()
                     break
                 else:
                     logging.debug(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
@@ -83,25 +80,20 @@ async def payment(tray):
         try:
             timeout = expiry + suceess_screen_expiry + display_expiry + 3
             await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=timeout)
-        
         except asyncio.CancelledError:
-            if show_display == True:
-                shutdown()
+            shutdown()
             exit()
         except asyncio.TimeoutError:
             logging.info(f"Invoice expired after {expiry}s")
             logging.debug(f"Timeout reached after {timeout}s")
-            if show_display == True:
-                make_failure_img()
+            make_failure_img()
             sleep(display_expiry)
-            if show_display == True:
-                idlescreen()
+            idlescreen()
         finally:
             logging.info("Cycle complete")
     except NameError:
         logging.error("Error obtaining invoice. Check logs for details.")
-        if show_display == True:
-            errorscreen()
-            sleep(display_expiry)
-            idlescreen()
-            return
+        errorscreen()
+        sleep(display_expiry)
+        idlescreen()
+        return

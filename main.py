@@ -6,7 +6,6 @@ import logging
 from button import get_inventory, listener
 from display import epd, idlescreen, initialize, shutdown
 from waveshare_epd import epd3in7
-from var import show_display
 
 ####### MAIN ########
 
@@ -16,17 +15,12 @@ async def main():
 	try:
 		logging.info("Starting up")
 		get_inventory()
-		if show_display == True:
-			logging.info("Display is enabled.")
-			initialize()
-			idlescreen()
-		else:
-			logging.info("Display is disabled.")
+		initialize()
+		idlescreen()
 		await listener()
 
 	except KeyboardInterrupt:
-		if show_display == True:
-			shutdown()
+		shutdown()
 		exit()
 
 asyncio.run(main())

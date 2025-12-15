@@ -3,7 +3,8 @@ import logging
 import os
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
-from var import amount, label, picdir, unit, fontA, fontB
+import random
+from var import amount, label, picdir, unit, fontA, fontB, success_icondir, success_icons
 
 from display import descriptionscreen, idlescreen, invoicescreen, failurescreen, successscreen
 from waveshare_epd import epd3in7
@@ -57,7 +58,9 @@ def make_qrcode(invoice):
     invoicescreen(qr_image)
 
 def make_success_img():
-    img = Image.open(os.path.join(picdir, 'tick100x100.bmp'))
+    img_path = random.choice(success_icons)
+    logging.debug(f"Choosing {img_path} as success icon")
+    img = Image.open(os.path.join(success_icondir, img_path))
     coordinates(img)
     success_img = description_img
     #success_img = Image.new('1', (canvas_width, canvas_height), 'white')
