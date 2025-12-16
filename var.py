@@ -67,12 +67,12 @@ display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
 suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
 
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
-success_icondir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/success_icons')
+press_icondir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-success_icons = os.listdir(path='pic/success_icons')
+press_icons = os.listdir(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons'))
 
 font_a = os.getenv("FONTA", "Font.ttc")
 font_b = os.getenv("FONTB", "Rushfordclean.otf")

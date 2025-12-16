@@ -4,9 +4,9 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 import random
-from var import amount, label, picdir, unit, fontA, fontB, success_icondir, success_icons
+from var import amount, label, picdir, unit, fontA, fontB, press_icondir, press_icons
 
-from display import descriptionscreen, idlescreen, invoicescreen, failurescreen, successscreen
+from display import descriptionscreen, idlescreen, invoicescreen, failure_overlay, prompt_overlay, press_overlay, success_overlay
 from waveshare_epd import epd3in7
 
 canvas_width = epd3in7.EPD_WIDTH
@@ -26,6 +26,16 @@ def coordinates(img):
     logging.debug(f"QR coordinates {paste_box}")
     return paste_box
 
+def make_press_overlay():
+    img_path = random.choice(press_icons)
+    logging.debug(f"Choosing {img_path} as press icon")
+    img = Image.open(os.path.join(press_icondir, img_path))
+    coordinates(img)
+    press_img = canvas()
+    press_img.paste(img, paste_box)
+    logging.debug(press_img)
+    press_overlay(press_img)
+
 def make_description(tray):
     description_string = label[tray] + " selected!"
     amount_string = str(amount[tray]) + " " + unit[tray]
@@ -37,6 +47,9 @@ def make_description(tray):
     draw.text((40, 445), amount_string, font = fontB)
     logging.debug(description_img)
     descriptionscreen(description_img)
+
+def make_prompt_overlay():
+    prompt_overlay()
 
 def make_qrcode(invoice):
     qr = qrcode.QRCode(
@@ -57,19 +70,17 @@ def make_qrcode(invoice):
     logging.debug(qr_image)
     invoicescreen(qr_image)
 
-def make_success_img():
-    img_path = random.choice(success_icons)
-    logging.debug(f"Choosing {img_path} as success icon")
-    img = Image.open(os.path.join(success_icondir, img_path))
+def make_success_overlay():
+    img = Image.open(os.path.join(picdir, 'tick100x100.bmp'))
     coordinates(img)
     success_img = description_img
     #success_img = Image.new('1', (canvas_width, canvas_height), 'white')
     coordinates(img)
     success_img.paste(img, paste_box)
     logging.debug(success_img)
-    successscreen(success_img)
+    success_overlay(success_img)
 
-def make_failure_img():
+def make_failure_overlay():
     img = Image.open(os.path.join(picdir, 'cross100x100.bmp'))
     coordinates(img)
     failure_img = description_img
@@ -77,4 +88,4 @@ def make_failure_img():
     coordinates(img)
     failure_img.paste(img, paste_box)
     logging.debug(failure_img)
-    failurescreen(failure_img)
+    failure_overlay(failure_img)

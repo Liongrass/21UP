@@ -9,7 +9,7 @@ import websockets
 # Functions and variables
 from dispense import trigger
 from display import errorscreen, idlescreen, invoicescreen, shutdown
-from qr import make_qrcode, make_success_img, make_failure_img
+from qr import make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
 from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 
 
@@ -56,11 +56,12 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
-                    make_success_img()
+                    make_success_overlay()
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
                     trigger(pin_out, tray)
                     sleep(suceess_screen_expiry)
                     idlescreen()
+                    make_prompt_overlay()
                     break
                 else:
                     logging.debug(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
@@ -86,9 +87,10 @@ async def payment(tray):
         except asyncio.TimeoutError:
             logging.info(f"Invoice expired after {expiry}s")
             logging.debug(f"Timeout reached after {timeout}s")
-            make_failure_img()
+            make_failure_overlay()
             sleep(display_expiry)
             idlescreen()
+            make_prompt_overlay()
         finally:
             logging.info("Cycle complete")
     except NameError:
