@@ -6,6 +6,7 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 
 Currently being implemented:
 - Adjust location of the description screen based on how big the QR code is
+- Adjust size of the checkmark/cross on how big the QR code is
 - Make use of grey scales
 - Add a barometer to the device and display the temperature
 - 
