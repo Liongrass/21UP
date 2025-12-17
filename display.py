@@ -24,12 +24,18 @@ def initialize():
 			logging.info("Starting display init")
 			epd.init(0)
 		except IOError as e:
-			logging.info(e)
+			logging.error(e)
+
+def press_overlay(press_img):
+	if show_display == True:
+		initialize()
+		logging.info("Overlaying press icon")
+		epd.display_1Gray(epd.getbuffer(press_img))
 
 def idlescreen():
 	if show_display == True:
 		try:
-			logging.info("2.read 4 Gray bmp file")
+			logging.debug("Showing Idlescreen")
 			global initial_img
 			initial_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
 			draw = ImageDraw.Draw(initial_img)
@@ -44,7 +50,7 @@ def idlescreen():
 			logging.debug(initial_img)
 			epd.display_4Gray(epd.getbuffer_4Gray(initial_img))
 		except IOError as e:
-			logging.info(e)
+			logging.error(e)
 
 def prompt_overlay():
 	if show_display == True:
@@ -60,19 +66,10 @@ def prompt_overlay():
 def descriptionscreen(description_img): 
 	if show_display == True:
 		epd.display_4Gray(epd.getbuffer_4Gray(description_img))
-		#epd.display_1Gray(epd.getbuffer(description_img))
 		logging.info("Showing descriptionscreen")
-
-def press_overlay(press_img):
-	if show_display == True:
-		initialize()
-		logging.info("Overlaying press icon")
-		epd.display_1Gray(epd.getbuffer(press_img))
-
 
 def invoicescreen(qr_image):
 	if show_display == True:
-		#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
 		logging.info("Showing invoicescreen")
 		epd.display_1Gray(epd.getbuffer(qr_image))
 
@@ -85,7 +82,6 @@ def failure_overlay(failure_img):
 	if show_display == True:
 		logging.debug("Showing failure overlay")
 		epd.display_1Gray(epd.getbuffer(failure_img))
-		logging.info("Showing failure screen")
 
 def errorscreen():
 	if show_display == True:
