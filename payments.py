@@ -60,8 +60,6 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                     make_success_overlay()
                     trigger(pin_out, tray)
                     sleep(suceess_screen_expiry)
-                    idlescreen()
-                    make_prompt_overlay()
                     break
                 else:
                     logging.debug(f"Ignoring incoming payment for {response['payment']['amount']/1000} sat. Payment hash does not belong to invoice")
@@ -89,13 +87,14 @@ async def payment(tray):
             logging.debug(f"Timeout reached after {timeout}s")
             make_failure_overlay()
             sleep(display_expiry)
-            idlescreen()
-            make_prompt_overlay()
         finally:
             logging.info("Cycle complete")
     except NameError:
         logging.error("Error obtaining invoice. Check logs for details.")
         errorscreen()
         sleep(display_expiry)
-        idlescreen()
         return
+
+def return_to_screen():
+    idlescreen()
+    make_prompt_overlay()
