@@ -11,17 +11,20 @@ from waveshare_epd import epd3in7
 
 epd = epd3in7.EPD()
 
-def initialize():
+def check_display():
 	if show_display == True:
 		logging.info("Display is enabled.")
+		logging.debug("epd3in7")
+	else:
+		logging.info("Display is disabled.")
+
+def initialize():
+	if show_display == True:
 		try:
-			logging.debug("epd3in7")
 			logging.info("Starting display init")
 			epd.init(0)
 		except IOError as e:
 			logging.info(e)
-	else:
-			logging.info("Display is disabled.")
 
 def idlescreen():
 	if show_display == True:
@@ -40,7 +43,6 @@ def idlescreen():
 					draw.text((150, 205 + i*40), "Not Avail.", font = fontA)
 			logging.debug(initial_img)
 			epd.display_4Gray(epd.getbuffer_4Gray(initial_img))
-			#epd.sleep()
 		except IOError as e:
 			logging.info(e)
 
@@ -49,14 +51,14 @@ def prompt_overlay():
 		prompt_img = initial_img
 		draw = ImageDraw.Draw(prompt_img)
 		draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
+		logging.info("Overlaying prompt")
 		epd.display_1Gray(epd.getbuffer(prompt_img))
 		logging.debug(prompt_img)
-		logging.info("Overlaying prompt")
+		logging.info("Putting display to sleep")
 		epd.sleep()
 
 def descriptionscreen(description_img): 
 	if show_display == True:
-		#initialize()
 		epd.display_4Gray(epd.getbuffer_4Gray(description_img))
 		#epd.display_1Gray(epd.getbuffer(description_img))
 		logging.info("Showing descriptionscreen")
@@ -64,32 +66,30 @@ def descriptionscreen(description_img):
 def press_overlay(press_img):
 	if show_display == True:
 		initialize()
-		epd.display_1Gray(epd.getbuffer(press_img))
 		logging.info("Overlaying press icon")
+		epd.display_1Gray(epd.getbuffer(press_img))
 
 
 def invoicescreen(qr_image):
 	if show_display == True:
-			#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
-			logging.info("Showing invoicescreen")
-			epd.display_1Gray(epd.getbuffer(qr_image))
-			logging.info("Showing invoicescreen")
+		#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
+		logging.info("Showing invoicescreen")
+		epd.display_1Gray(epd.getbuffer(qr_image))
 
 def success_overlay(success_img):
 	if show_display == True:
-		logging.debug("Initializing success screen")
+		logging.debug("Showing success overlay")
 		epd.display_1Gray(epd.getbuffer(success_img))
-		logging.info("Showing success screen")
 
 def failure_overlay(failure_img):
 	if show_display == True:
-		logging.debug("Initializing failure screen")
+		logging.debug("Showing failure overlay")
 		epd.display_1Gray(epd.getbuffer(failure_img))
 		logging.info("Showing failure screen")
 
 def errorscreen():
 	if show_display == True:
-		logging.debug("Initializing error screen")
+		logging.debug("Showing error screen")
 		error_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
 		draw = ImageDraw.Draw(error_img)
 		string = "Error obtaining invoice.\n Is the server up?\n Check logs for details."

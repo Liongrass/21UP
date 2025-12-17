@@ -1,11 +1,12 @@
-# from skimage import data, io, util
+# Modules
 import logging
 import os
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 import random
-from var import amount, label, picdir, unit, fontA, fontB, press_icondir, press_icons
 
+# Functions and variables
+from var import amount, label, picdir, unit, fontA, fontB, press_icondir, press_icons
 from display import descriptionscreen, idlescreen, invoicescreen, failure_overlay, prompt_overlay, press_overlay, success_overlay
 from waveshare_epd import epd3in7
 
@@ -43,8 +44,8 @@ def make_description(tray):
     description_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
     #description_img = Image.new('1', (canvas_width, canvas_height), 'white')
     draw = ImageDraw.Draw(description_img)
-    draw.text((40, 205), description_string, font = fontB)
-    draw.text((40, 445), amount_string, font = fontB)
+    draw.text((48, 220), description_string, font = fontB)
+    draw.text((225, 455), amount_string, anchor="rs", font = fontB)
     logging.debug(description_img)
     descriptionscreen(description_img)
 
@@ -55,10 +56,10 @@ def make_qrcode(invoice):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=3,
+        box_size=3.9,
         border=1,
         )
-    qr.add_data(invoice["bolt11"])
+    qr.add_data(invoice["bolt11"].upper())
     qr.make(fit=True)
     img = qr.make_image(fill_color='black', back_color='white')
     img = img.convert("1")
@@ -71,21 +72,21 @@ def make_qrcode(invoice):
     invoicescreen(qr_image)
 
 def make_success_overlay():
-    img = Image.open(os.path.join(picdir, 'tick100x100.bmp'))
+    img = Image.open(os.path.join(picdir, 'tick175x175.bmp'))
     coordinates(img)
     success_img = description_img
     #success_img = Image.new('1', (canvas_width, canvas_height), 'white')
-    coordinates(img)
+    #coordinates(img)
     success_img.paste(img, paste_box)
     logging.debug(success_img)
     success_overlay(success_img)
 
 def make_failure_overlay():
-    img = Image.open(os.path.join(picdir, 'cross100x100.bmp'))
+    img = Image.open(os.path.join(picdir, 'cross175x175.bmp'))
     coordinates(img)
     failure_img = description_img
     #failure_img = Image.new('1', (canvas_width, canvas_height), 'white')
-    coordinates(img)
+    #coordinates(img)
     failure_img.paste(img, paste_box)
     logging.debug(failure_img)
     failure_overlay(failure_img)

@@ -56,8 +56,8 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response_str = await websocket.recv()
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
-                    make_success_overlay()
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
+                    make_success_overlay()
                     trigger(pin_out, tray)
                     sleep(suceess_screen_expiry)
                     idlescreen()

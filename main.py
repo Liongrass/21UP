@@ -4,8 +4,8 @@ import logging
 
 # Functions and variables
 from button import get_inventory, listener
-from display import epd, idlescreen, initialize, shutdown
-from waveshare_epd import epd3in7
+from display import check_display, idlescreen, initialize, shutdown #, epd
+#from waveshare_epd import epd3in7
 
 ####### MAIN ########
 
@@ -13,8 +13,9 @@ from waveshare_epd import epd3in7
 
 async def main():
 	try:
-		logging.info("Starting up")
+		logging.info("Starting 21UP")
 		get_inventory()
+		check_display()
 		initialize()
 		idlescreen()
 		await listener()
