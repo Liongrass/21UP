@@ -25,6 +25,7 @@ def coordinates(img):
     global paste_box
     paste_box = (x_center, y_center + qr_offset, x_center + img.width, y_center + img.height + qr_offset)
     logging.debug(f"QR coordinates {paste_box}")
+    logging.debug(f"Image width: {img.width}. Image height: {img.height}")
     return paste_box
 
 def make_press_overlay():
