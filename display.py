@@ -103,3 +103,4 @@ def shutdown():
 		epd.init(0)
 		epd.Clear(0xFF, 0)
 		epd3in7.epdconfig.module_exit(cleanup=True)
+	exit()

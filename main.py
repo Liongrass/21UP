@@ -22,6 +22,5 @@ async def main():
 
 	except KeyboardInterrupt:
 		shutdown()
-		exit()
 
 asyncio.run(main())

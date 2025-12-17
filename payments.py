@@ -81,7 +81,6 @@ async def payment(tray):
             await asyncio.wait_for(listen_for_payment(ws_base, x_api_key, invoice, tray), timeout=timeout)
         except asyncio.CancelledError:
             shutdown()
-            exit()
         except asyncio.TimeoutError:
             logging.info(f"Invoice expired after {expiry}s")
             logging.debug(f"Timeout reached after {timeout}s")
