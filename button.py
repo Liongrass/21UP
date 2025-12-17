@@ -44,7 +44,7 @@ async def listener():
                 item = btn
                 await asyncio.sleep(button_delay)
         if detected:
-            logging.info(f"Pin {pin_in[tray]} pressed. Fetching payment for tray {tray}")
+            logging.info(f"Pin {pin_in[tray]} pressed. Fetching payment for tray {tray} ({label[tray]})")
             logging.debug(item)
             make_press_overlay()
             make_description(tray)
