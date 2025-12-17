@@ -5,7 +5,10 @@ The new 21UP vending machine displays a Bolt11 invoice on the e-ink display when
 <img width="1018" height="509" alt="banner" src="https://github.com/user-attachments/assets/366ba7b7-83e2-4909-a4fc-3884f69ce163" />
 
 Currently being implemented:
-- Using partial refresh, the machine should show a quick notice when before an invoice is being fetched
+- Adjust location of the description screen based on how big the QR code is
+- Make use of grey scales
+- Add a barometer to the device and display the temperature
+- 
 
 To be implemented:
 - Keep listening for the button even when an invoice is currently pending.
@@ -16,7 +19,7 @@ To be implemented:
 
 Bugs:
 
-- No known bugs
+- Occasionally the device would pick up a tray as full when it isnt
 
 ## Prerequisites:
 
