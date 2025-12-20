@@ -24,18 +24,12 @@ def initialize():
 			logging.info("Starting display init")
 			epd.init(0)
 		except IOError as e:
-			logging.error(e)
-
-def press_overlay(press_img):
-	if show_display == True:
-		initialize()
-		logging.info("Overlaying press icon")
-		epd.display_1Gray(epd.getbuffer(press_img))
+			logging.info(e)
 
 def idlescreen():
 	if show_display == True:
 		try:
-			logging.debug("Showing Idlescreen")
+			logging.info("2.read 4 Gray bmp file")
 			global initial_img
 			initial_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
 			draw = ImageDraw.Draw(initial_img)
@@ -43,14 +37,15 @@ def idlescreen():
 				draw.text((16, 205 + i*40), label[i], font = fontA)
 				from button import inventory
 				if inventory[i] == 0:
-					draw.text((150, 205 + i*40), unit[i], font = fontA)
+					draw.text((197, 205 + i*40), "$", font = fontA, anchor="ra")
+					#draw.text((150, 205 + i*40), unit[i], font = fontA)
 					draw.text((200, 205 + i*40), str(amount[i]), font = fontA)
 				if inventory[i] == 1:
-					draw.text((150, 205 + i*40), "Not Avail.", font = fontA)
+					draw.text((198, 205 + i*40), "Not Avail.", font = fontA, anchor="ma")
 			logging.debug(initial_img)
 			epd.display_4Gray(epd.getbuffer_4Gray(initial_img))
 		except IOError as e:
-			logging.error(e)
+			logging.info(e)
 
 def prompt_overlay():
 	if show_display == True:
@@ -66,10 +61,19 @@ def prompt_overlay():
 def descriptionscreen(description_img): 
 	if show_display == True:
 		epd.display_4Gray(epd.getbuffer_4Gray(description_img))
+		#epd.display_1Gray(epd.getbuffer(description_img))
 		logging.info("Showing descriptionscreen")
+
+def press_overlay(press_img):
+	if show_display == True:
+		initialize()
+		logging.info("Overlaying press icon")
+		epd.display_1Gray(epd.getbuffer(press_img))
+
 
 def invoicescreen(qr_image):
 	if show_display == True:
+		#epd.display_4Gray(epd.getbuffer_4Gray(qr_image))
 		logging.info("Showing invoicescreen")
 		epd.display_1Gray(epd.getbuffer(qr_image))
 
@@ -82,6 +86,7 @@ def failure_overlay(failure_img):
 	if show_display == True:
 		logging.debug("Showing failure overlay")
 		epd.display_1Gray(epd.getbuffer(failure_img))
+		logging.info("Showing failure screen")
 
 def errorscreen():
 	if show_display == True:
@@ -99,4 +104,3 @@ def shutdown():
 		epd.init(0)
 		epd.Clear(0xFF, 0)
 		epd3in7.epdconfig.module_exit(cleanup=True)
-	exit()
