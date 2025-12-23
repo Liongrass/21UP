@@ -27,3 +27,4 @@ def dht11_val():
 def get_barometrics():        
         (t, h) = dht11_val()
         logging.info(f"Temperature {t}°C, Humidity: {h}%")
+        return t

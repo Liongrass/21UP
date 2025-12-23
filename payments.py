@@ -7,6 +7,7 @@ from time import sleep
 import websockets
 
 # Functions and variables
+from barometer import get_barometrics
 from dispense import trigger
 from display import errorscreen, idlescreen, invoicescreen, shutdown
 from qr import make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
@@ -35,13 +36,14 @@ headers = {"X-Api-Key" : x_api_key,
 # This function generates an invoice through the LNbits API and returns only the Bolt11 invoice
 def get_invoice(params, headers, tray):
     try:
+        t = get_barometrics()
         invoice_request = requests.post(url_base, json=params(tray), headers=headers)
         invoice_request.raise_for_status()
         global invoice
         invoice = invoice_request.json()
         logging.debug(f"{invoice}")
         logging.info(invoice["bolt11"])
-        make_qrcode(invoice)
+        make_qrcode(t, invoice)
     except Exception as e:
         logging.debug(f"ERROR {e}")
         return

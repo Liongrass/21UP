@@ -53,7 +53,7 @@ def make_description(tray):
 def make_prompt_overlay():
     prompt_overlay()
 
-def make_qrcode(invoice):
+def make_qrcode(t, invoice):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
