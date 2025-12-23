@@ -25,7 +25,7 @@ handlers = [file_handler, stdout_handler]
 logging.basicConfig(handlers=handlers, format='%(asctime)s %(levelname)s - %(message)s', level=debuglevel)
 logging.info(f"Setting debug level at {debuglevel}")
 
-production = os.getenv("PRODUCTION", True).lower() in ('true', '1', 't')
+production = os.getenv("PRODUCTION", "True").lower() in ('true', '1', 't')
 
 ##### INVOICES #####
 
@@ -61,7 +61,7 @@ relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####
 
-show_display = os.getenv("SHOWDISPLAY", True).lower() in ('true', '1', 't')
+show_display = os.getenv("SHOWDISPLAY", "False").lower() in ('true', '1', 't')
 
 display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
 suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
