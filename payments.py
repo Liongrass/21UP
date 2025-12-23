@@ -71,6 +71,9 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
             except json.JSONDecodeError as e:
                 logging.debug(f"Failed to decode JSON: {e}")
                 continue
+            except InvalidStatus as e:
+                logging.debug(f"Failed to make connection")
+                make_errorscreen()
 
 # This is the main function. It will first get the invoice with get_invoice(), then evoke listen_for_payment(). If within sixty seconds the invoice is not paid, it will shut down.
 async def payment(tray):

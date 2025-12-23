@@ -7,7 +7,7 @@ import random
 
 # Functions and variables
 from var import amount, label, picdir, unit, fontA, fontB, press_icondir, press_icons
-from display import display_overlay, display_screen, initialize
+from display import display_overlay, display_screen, epd
 from waveshare_epd import epd3in7
 
 canvas_width = epd3in7.EPD_WIDTH
@@ -49,6 +49,7 @@ def make_prompt_overlay():
     draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
     logging.info("Overlaying prompt")
     display_overlay(prompt_img)
+    epd.sleep()
 
 def make_press_overlay():
     img_path = random.choice(press_icons)
