@@ -7,7 +7,7 @@ from time import sleep
 # Functions and variables
 from payments import payment, return_to_screen
 from qr import make_press_overlay, make_description, make_prompt_overlay, make_press_overlay
-from var import pin_in, button_delay, label, start_time
+from var import pin_in, button_delay, inventory_delay, label, start_time
 
 # Set up GPIO
 buttons = [Button(btn, pull_up=False, hold_time=2) for btn in pin_in]
@@ -49,8 +49,8 @@ async def listener():
             make_press_overlay()
             make_description(tray)
             await payment(tray)
-            get_inventory()
             return_to_screen()
+            get_inventory()
             logging.info(f"listening on pins {pin_in}")
         # if an event remains high for more than 0.5 sec it might
         # be counted again on the next loop. Likewise if an event
