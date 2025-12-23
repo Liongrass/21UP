@@ -9,8 +9,8 @@ import websockets
 # Functions and variables
 from barometer import get_barometrics
 from dispense import trigger
-from display import errorscreen, idlescreen, invoicescreen, shutdown
-from qr import make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
+from display import shutdown
+from qr import make_errorscreen, make_idlescreen, make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
 from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 
 
@@ -92,10 +92,10 @@ async def payment(tray):
             logging.info("Cycle complete")
     except NameError:
         logging.error("Error obtaining invoice. Check logs for details.")
-        errorscreen()
+        make_errorscreen()
         sleep(display_expiry)
         return
 
 def return_to_screen():
-    idlescreen()
+    make_idlescreen()
     make_prompt_overlay()

@@ -56,7 +56,7 @@ logging.debug(f"Unit: {unit}")
 logging.debug(f"Pin In: {pin_in}")
 logging.debug(f"Pin Out: {pin_out}")
 
-button_delay = float(os.getenv("BUTTON_DELAY", 500)) / 1000
+button_delay = float(os.getenv("BUTTON_DELAY", 50)) / 1000
 relay_duration = float(os.getenv("RELAY_DURATION", 500)) / 1000
 
 ##### DISPLAY #####

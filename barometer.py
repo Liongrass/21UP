@@ -7,6 +7,9 @@ def read_bus(file):
     f.close
     return value
 
+# A function to get temperature and humidity from the barometer.
+# Frequently, the device will return an error, so the function attempts to read the values
+# three times before it gives up.
 def dht11_val():
     t = h = 0
     tries = 3
@@ -23,7 +26,7 @@ def dht11_val():
                 t = h = "N/A"
         return t, h
 
-
+# Currently, only the temperature is displayed by the machine, but both values are logged.
 def get_barometrics():        
         (t, h) = dht11_val()
         logging.info(f"Temperature {t}°C, Humidity: {h}%")

@@ -5,7 +5,8 @@ import logging
 # Functions and variables
 from barometer import get_barometrics
 from button import get_inventory, listener
-from display import check_display, idlescreen, initialize, shutdown #, epd
+from display import check_display, initialize, shutdown #, epd
+from qr import make_idlescreen
 #from waveshare_epd import epd3in7
 
 ####### MAIN ########
@@ -19,7 +20,7 @@ async def main():
 		get_inventory()
 		check_display()
 		initialize()
-		idlescreen()
+		make_idlescreen()
 		await listener()
 
 	except KeyboardInterrupt:
