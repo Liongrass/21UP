@@ -6,7 +6,7 @@ import logging
 from barometer import get_barometrics
 from button import get_inventory, listener
 from display import check_display, initialize, shutdown #, epd
-from qr import make_idlescreen
+from screens import make_idlescreen
 #from waveshare_epd import epd3in7
 
 ####### MAIN ########

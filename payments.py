@@ -10,7 +10,7 @@ import websockets
 from barometer import get_barometrics
 from dispense import trigger
 from display import shutdown
-from qr import make_errorscreen, make_idlescreen, make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
+from screens import make_errorscreen, make_idlescreen, make_qrcode, make_success_overlay, make_failure_overlay, make_prompt_overlay
 from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 
 

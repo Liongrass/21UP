@@ -7,7 +7,7 @@ from time import sleep
 # Functions and variables
 from display import initialize
 from payments import payment, return_to_screen
-from qr import make_press_overlay, make_description, make_prompt_overlay, make_press_overlay
+from screens import make_press_overlay, make_description, make_prompt_overlay, make_press_overlay
 from var import pin_in, button_delay, label, start_time
 
 # Set up GPIO
