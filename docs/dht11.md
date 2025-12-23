@@ -8,7 +8,7 @@ First, edit the firmware configuration:
 
 At the very end, amend the following line. Don't forget to replace the GPIO with your own:
 
-`dtoverlay=dht11,gpiopin=26`
+`dtoverlay=dht11,gpiopin=4`
 
 Finally, reboot the device to activate the changes.
 

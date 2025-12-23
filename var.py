@@ -82,3 +82,7 @@ fontsize_b = int(os.getenv("FONTSIZEB", 32))
 #font36 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 36)
 fontA = ImageFont.truetype(os.path.join(picdir, font_a), fontsize_a)
 fontB = ImageFont.truetype(os.path.join(picdir, font_b), fontsize_b)
+
+##### BAROMETER #####
+
+barometer = os.getenv("BAROMETER", "True").lower() in ('true', '1', 't')
