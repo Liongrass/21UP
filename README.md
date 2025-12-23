@@ -44,6 +44,22 @@ Then select Interfacing Options -> SPI -> Yes to enable the SPI interface
 
 `pip install -r requirements.txt`
 
+### DHT11 Barometer
+
+To install and configure the DHT11 barometer, some extra configuration is necessary.
+
+First, edit the firmware configuration:
+
+`sudo nano /boot/firmware/config.txt`
+
+At the very end, amend the following line. Don't forget to replace the GPIO with your own:
+
+`dtoverlay=dht11,gpiopin=26`
+
+Finally, reboot the device to activate the changes.
+
+More information can be found in [DHT11.md](/docs/dht11.md)
+
 ## Run 21UP:
 
 To run the machine, first copy the example configuration file.
