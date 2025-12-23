@@ -8,14 +8,10 @@ Currently being implemented:
 - Adjust location of the description screen based on how big the QR code is
 - Adjust size of the checkmark/cross on how big the QR code is
 - Make use of grey scales
-- Add a barometer to the device and display the temperature
-- 
 
 To be implemented:
 - Keep listening for the button even when an invoice is currently pending.
 - Cancel the current invoice when a button is pressed
-- Make a setup.py file
-- Cleanup pins when program is exited
 - Make use of LCD screen
 
 Bugs:
