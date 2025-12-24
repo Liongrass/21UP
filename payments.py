@@ -43,7 +43,7 @@ def get_invoice(params, headers, tray):
         logging.debug(f"{invoice}")
         logging.info(invoice["bolt11"])
         t = get_barometrics()
-        make_qrcode(t, invoice)
+        make_qrcode(tray, t, invoice)
     except Exception as e:
         logging.debug(f"ERROR {e}")
         return
@@ -71,9 +71,10 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
             except json.JSONDecodeError as e:
                 logging.debug(f"Failed to decode JSON: {e}")
                 continue
-            except InvalidStatus as e:
-                logging.debug(f"Failed to make connection")
+            except websockets.exceptions.InvalidStatus as e:
+                logging.debug(f"Failed to make connection: {e}")
                 make_errorscreen()
+                sleep(display_expiry)
 
 # This is the main function. It will first get the invoice with get_invoice(), then evoke listen_for_payment(). If within sixty seconds the invoice is not paid, it will shut down.
 async def payment(tray):

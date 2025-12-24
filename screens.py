@@ -24,13 +24,12 @@ def coordinates(img):
     qr_offset = 100
     global paste_box
     paste_box = (x_center, y_center + qr_offset, x_center + img.width, y_center + img.height + qr_offset)
-    logging.debug(f"QR coordinates {paste_box}")
-    logging.debug(f"Image width: {img.width}. Image height: {img.height}")
     return paste_box
 
 def make_idlescreen():
     global idle_img
     idle_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
+    display_screen(idle_img)
     draw = ImageDraw.Draw(idle_img)
     for i in range(len(label)):
         draw.text((16, 205 + i*40), label[i], font = fontA)
@@ -40,8 +39,9 @@ def make_idlescreen():
             draw.text((200, 205 + i*40), str(amount[i]), font = fontA)
         if inventory[i] == 1:
             draw.text((150, 205 + i*40), "Not Avail.", font = fontA)
+        display_overlay(idle_img)
     logging.debug(idle_img)
-    display_screen(idle_img)
+    display_overlay(idle_img)
 
 def make_prompt_overlay():
     prompt_img = idle_img
@@ -55,27 +55,21 @@ def make_press_overlay():
     img_path = random.choice(press_icons)
     logging.debug(f"Choosing {img_path} as press icon")
     img = Image.open(os.path.join(press_icondir, img_path))
-    coordinates(img)
+    logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = canvas()
     overlay_img.paste(img, paste_box)
     logging.debug(overlay_img)
     logging.debug("Showing press overlay")
     display_overlay(overlay_img)
 
-def make_description(tray):
-    description_string = label[tray] + " selected!"
-    amount_string = str(amount[tray]) + " " + unit[tray]
+def make_description():
     global description_img
     description_img = Image.open(os.path.join(picdir, '21UP_h.bmp'))
-    #description_img = Image.new('1', (canvas_width, canvas_height), 'white')
-    draw = ImageDraw.Draw(description_img)
-    draw.text((48, 220), description_string, font = fontB)
-    draw.text((225, 455), amount_string, anchor="rs", font = fontB)
     logging.debug(description_img)
-    logging.debug("Showing description screen")
+    logging.debug("Showing empty description screen")
     display_screen(description_img)
 
-def make_qrcode(t, invoice):
+def make_qrcode(tray, t, invoice):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -86,18 +80,31 @@ def make_qrcode(t, invoice):
     qr.make(fit=True)
     img = qr.make_image(fill_color='black', back_color='white')
     img = img.convert("1")
-    coordinates(img)
-    global qr_image
+    qr_coordinates = coordinates(img)
+    logging.debug(f"QR coordinates: {qr_coordinates}")
+    #logging.debug(f"QR coordinates: {coordinates(img)[1]}")
+    
+    #global qr_image
     qr_image = description_img
-    #qr_image = Image.new('1', (canvas_width, canvas_height), 'white')
     qr_image.paste(img, paste_box)
+
+    description_string = label[tray]
+    amount_string = str(unit[tray]) + " " + str(amount[tray])
+    temperature_string = str(t) + " °C"
+    
+    draw = ImageDraw.Draw(qr_image)
+    draw.text((qr_coordinates[0], qr_coordinates[2] - 6), description_string, anchor="la", font = fontB)
+    draw.text((qr_coordinates[0], qr_coordinates[3]), temperature_string, anchor="la", font = fontA)
+    draw.text((qr_coordinates[2], qr_coordinates[3]), amount_string, anchor="ra", font = fontB)
+
+
     logging.debug(qr_image)
     logging.debug("Showing QR overlay")
     display_overlay(qr_image)
 
 def make_success_overlay():
     img = Image.open(os.path.join(picdir, 'tick175x175.bmp'))
-    coordinates(img)
+    logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = description_img
     #success_img = Image.new('1', (canvas_width, canvas_height), 'white')
     #coordinates(img)
@@ -108,7 +115,7 @@ def make_success_overlay():
 
 def make_failure_overlay():
     img = Image.open(os.path.join(picdir, 'cross175x175.bmp'))
-    coordinates(img)
+    logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = description_img
     #failure_img = Image.new('1', (canvas_width, canvas_height), 'white')
     #coordinates(img)

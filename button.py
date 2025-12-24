@@ -49,7 +49,7 @@ async def listener():
             logging.debug(item)
             initialize()
             make_press_overlay()
-            make_description(tray)
+            make_description()
             await payment(tray)
             return_to_screen()
             get_inventory()
