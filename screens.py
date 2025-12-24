@@ -82,11 +82,13 @@ def make_qrcode(tray, t, invoice):
     img = img.convert("1")
     qr_coordinates = coordinates(img)
     logging.debug(f"QR coordinates: {qr_coordinates}")
-    #logging.debug(f"QR coordinates: {coordinates(img)[1]}")
+    global qr_width
+    qr_width = img.width
+    logging.debug(f"QR Code Width: {qr_width}")
     
-    #global qr_image
     qr_image = description_img
     qr_image.paste(img, paste_box)
+    display_overlay(qr_image)
 
     description_string = label[tray]
     amount_string = str(unit[tray]) + " " + str(amount[tray])
@@ -94,31 +96,30 @@ def make_qrcode(tray, t, invoice):
     
     draw = ImageDraw.Draw(qr_image)
     draw.text((qr_coordinates[0], qr_coordinates[2] - 6), description_string, anchor="la", font = fontB)
+    display_overlay(qr_image)
     draw.text((qr_coordinates[0], qr_coordinates[3]), temperature_string, anchor="la", font = fontA)
+    display_overlay(qr_image)
     draw.text((qr_coordinates[2], qr_coordinates[3]), amount_string, anchor="ra", font = fontB)
-
 
     logging.debug(qr_image)
     logging.debug("Showing QR overlay")
     display_overlay(qr_image)
 
 def make_success_overlay():
-    img = Image.open(os.path.join(picdir, 'tick175x175.bmp'))
+    orig_img = Image.open(os.path.join(picdir, 'tick200x200.bmp'))
+    img = orig_img.resize((qr_width, qr_width))
     logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = description_img
-    #success_img = Image.new('1', (canvas_width, canvas_height), 'white')
-    #coordinates(img)
     overlay_img.paste(img, paste_box)
     logging.debug(overlay_img)
     logging.debug("Showing success overlay")
     display_overlay(overlay_img)
 
 def make_failure_overlay():
-    img = Image.open(os.path.join(picdir, 'cross175x175.bmp'))
+    orig_img = Image.open(os.path.join(picdir, 'cross200x200.bmp'))
+    img = orig_img.resize((qr_width, qr_width))
     logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = description_img
-    #failure_img = Image.new('1', (canvas_width, canvas_height), 'white')
-    #coordinates(img)
     overlay_img.paste(img, paste_box)
     logging.debug(overlay_img)
     logging.debug("Showing failure overlay")
