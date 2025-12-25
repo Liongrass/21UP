@@ -44,15 +44,8 @@ def make_idlescreen():
     draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
     logging.debug(idle_img)
     display_overlay(idle_img)
-'''
-def make_prompt_overlay():
-    prompt_img = idle_img
-    draw = ImageDraw.Draw(prompt_img)
-    draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
-    logging.info("Overlaying prompt")
-    display_screen(prompt_img)
     epd.sleep()
-'''
+
 def make_press_overlay():
     img_path = random.choice(press_icons)
     logging.debug(f"Choosing {img_path} as press icon")
