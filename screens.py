@@ -12,6 +12,7 @@ from waveshare_epd import epd3in7
 
 canvas_width = epd3in7.EPD_WIDTH
 canvas_height = epd3in7.EPD_HEIGHT
+
 #canvas = Image.new('1', (canvas_width, canvas_height), 'white')
 
 def canvas():
@@ -40,17 +41,18 @@ def make_idlescreen():
         if inventory[i] == 1:
             draw.text((150, 205 + i*40), "Not Avail.", font = fontA)
         display_overlay(idle_img)
+    draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
     logging.debug(idle_img)
     display_overlay(idle_img)
-
+'''
 def make_prompt_overlay():
     prompt_img = idle_img
     draw = ImageDraw.Draw(prompt_img)
     draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
     logging.info("Overlaying prompt")
-    display_overlay(prompt_img)
+    display_screen(prompt_img)
     epd.sleep()
-
+'''
 def make_press_overlay():
     img_path = random.choice(press_icons)
     logging.debug(f"Choosing {img_path} as press icon")
