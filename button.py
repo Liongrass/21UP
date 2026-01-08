@@ -32,7 +32,7 @@ def get_inventory():
     logging.debug(f"Inventory: {inventory}")
 
 async def listener():
-    logging.info(f"listening on pins {pin_in}")
+    logging.info(f"Listening on pins {pin_in}")
     while True:
         detected = False
         for btn in buttons:
