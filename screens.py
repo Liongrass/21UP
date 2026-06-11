@@ -49,8 +49,6 @@ def make_idlescreen():
 def make_press_overlay():
     img_path = random.choice(press_icons)
     logging.debug(f"Choosing {img_path} as press icon")
-    print(press_icons)
-    print(img_path)
     img = Image.open(os.path.join(press_icondir, img_path))
     logging.debug(f"Overlay coordinates: {coordinates(img)}")
     overlay_img = canvas()

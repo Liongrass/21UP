@@ -3,6 +3,7 @@ import asyncio
 import logging
 
 # Functions and variables
+from accounting import check_csv
 from barometer import get_barometrics
 from button import get_inventory, listener
 from display import check_display, initialize, shutdown #, epd
@@ -16,6 +17,7 @@ from screens import make_idlescreen
 async def main():
 	try:
 		logging.info("Starting 21UP")
+		check_csv()
 		get_barometrics()
 		get_inventory()
 		check_display()

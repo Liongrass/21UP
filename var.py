@@ -66,13 +66,15 @@ show_display = os.getenv("SHOWDISPLAY", "True").lower() in ('true', '1', 't')
 display_expiry = int(os.getenv("DISPLAY_DELAY", 1))
 suceess_screen_expiry = int(os.getenv("SUCCESS_SCREEN_EXPIRY", 5))
 
+collection= os.getenv("PRESS_ICON_COLLECTION", "Bitcoin Collection")
+
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
-press_icondir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons')
+press_icondir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons', collection)
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-press_icons = os.listdir(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons'))
+press_icons = os.listdir(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/press_icons', collection))
 
 font_a = os.getenv("FONTA", "Font.ttc")
 font_b = os.getenv("FONTB", "Rushfordclean.otf")

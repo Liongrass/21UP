@@ -1,5 +1,6 @@
 # Modules
 import asyncio
+import datetime
 import json
 import logging
 import requests
@@ -7,6 +8,7 @@ from time import sleep
 import websockets
 
 # Functions and variables
+from accounting import amend_csv
 from barometer import get_barometrics
 from dispense import trigger
 from display import shutdown
@@ -42,6 +44,9 @@ def get_invoice(params, headers, tray):
         invoice = invoice_request.json()
         logging.debug(f"{invoice}")
         logging.info(invoice["bolt11"])
+        global payment_hash
+        payment_hash = invoice["payment_hash"]
+        logging.info(f"Payment hash: {payment_hash}")
         t = get_barometrics()
         make_qrcode(tray, t, invoice)
     except Exception as e:
@@ -52,6 +57,8 @@ def get_invoice(params, headers, tray):
 async def listen_for_payment(ws_base, x_api_key, invoice, tray):
     async with websockets.connect(ws_base + x_api_key) as websocket:
         logging.debug(f"Connected to {ws_base}")
+        global invoice_created
+        invoice_created = datetime.datetime.now()
         logging.info(f"Waiting for payment: {invoice['amount']/1000} sat")
         while True:
             try:
@@ -59,8 +66,11 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                 response = json.loads(response_str)
                 if response["payment"]["payment_hash"] == invoice["payment_hash"]:
                     logging.info(f"Payment received. Dispensing {label[tray]} (tray {tray}). Payment hash: " + response['payment']['payment_hash'])
+                    invoice_paid = datetime.datetime.now()
+                    settled = True
                     make_success_overlay()
                     trigger(pin_out, tray)
+                    amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash)
                     sleep(suceess_screen_expiry)
                     break
                 else:
@@ -90,6 +100,9 @@ async def payment(tray):
         except asyncio.TimeoutError:
             logging.info(f"Invoice expired after {expiry}s")
             logging.debug(f"Timeout reached after {timeout}s")
+            invoice_paid = invoice_created
+            settled = False
+            amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash)
             make_failure_overlay()
             sleep(display_expiry)
         finally:
