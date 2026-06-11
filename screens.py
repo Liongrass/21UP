@@ -7,7 +7,7 @@ import random
 
 # Functions and variables
 from var import amount, label, picdir, unit, fontA, fontB, press_icondir, press_icons
-from display import display_overlay, display_screen, epd
+from display import display_overlay, display_screen, display_sleep, epd
 from waveshare_epd import epd3in7
 
 canvas_width = epd3in7.EPD_WIDTH
@@ -44,7 +44,7 @@ def make_idlescreen():
     draw.text((16, 205 + 6*40), "Make Selection Now", font = fontB)
     logging.debug(idle_img)
     display_overlay(idle_img)
-    epd.sleep()
+    display_sleep()
 
 def make_press_overlay():
     img_path = random.choice(press_icons)
