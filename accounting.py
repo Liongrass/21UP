@@ -9,7 +9,7 @@ from barometer import get_barometrics
 from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 #from var import amount, display_expiry, suceess_screen_expiry, expiry, label, lnbits_server, memo_str, pin_out, show_display, unit, x_api_key
 
-fieldnames = ['settled', 'date', 'tray', 'item', 'price', 'currency', 'temp', 'time_to_pay', 'payment_hash']
+fieldnames = ['settled', 'date', 'tray', 'item', 'price', 'currency', 'sat_amount', 'temp', 'time_to_pay', 'payment_hash']
 
 def check_csv():
     exists = os.path.isfile(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/sales.csv'))
@@ -25,7 +25,7 @@ def create_csv():
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         csv_writer.writeheader()
 
-def amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash):
+def amend_csv(settled, invoice_created, tray, sat_amount, invoice_paid, payment_hash):
     if invoice_paid == invoice_created:
         time_to_pay = "N/A"
     else:
@@ -37,6 +37,7 @@ def amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash):
             'item': label[tray],
             'price': amount[tray],
             'currency': unit[tray],
+            'sat_amount': sat_amount,
             'temp': t,
             'time_to_pay': time_to_pay,
             'payment_hash': payment_hash}

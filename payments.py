@@ -46,6 +46,8 @@ def get_invoice(params, headers, tray):
         logging.info(invoice["bolt11"])
         global payment_hash
         payment_hash = invoice["payment_hash"]
+        global sat_amount
+        sat_amount = invoice["amount"]/1000
         logging.info(f"Payment hash: {payment_hash}")
         t = get_barometrics()
         make_qrcode(tray, t, invoice)
@@ -70,7 +72,7 @@ async def listen_for_payment(ws_base, x_api_key, invoice, tray):
                     settled = True
                     make_success_overlay()
                     trigger(pin_out, tray)
-                    amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash)
+                    amend_csv(settled, invoice_created, tray, sat_amount, invoice_paid, payment_hash)
                     sleep(suceess_screen_expiry)
                     break
                 else:
@@ -102,7 +104,7 @@ async def payment(tray):
             logging.debug(f"Timeout reached after {timeout}s")
             invoice_paid = invoice_created
             settled = False
-            amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash)
+            amend_csv(settled, invoice_created, tray, sat_amount, invoice_paid, payment_hash)
             make_failure_overlay()
             sleep(display_expiry)
         finally:
