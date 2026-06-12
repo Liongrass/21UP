@@ -12,7 +12,7 @@ from var import amount, display_expiry, suceess_screen_expiry, expiry, label, ln
 fieldnames = ['settled', 'date', 'tray', 'item', 'price', 'currency', 'temp', 'time_to_pay', 'payment_hash']
 
 def check_csv():
-    exists = os.path.isfile('pic/sales.csv')
+    exists = os.path.isfile(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/sales.csv'))
     if exists == False:
         logging.debug("No existing CSV found. Creating new one.")
         create_csv()
@@ -21,7 +21,7 @@ def check_csv():
 
 
 def create_csv():
-    with open('pic/sales.csv', mode='w') as csv_file:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/sales.csv'), mode='w') as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         csv_writer.writeheader()
 
@@ -40,6 +40,6 @@ def amend_csv(settled, invoice_created, tray, invoice_paid, payment_hash):
             'temp': t,
             'time_to_pay': time_to_pay,
             'payment_hash': payment_hash}
-    with open('pic/sales.csv', mode='a', newline='') as csv_file:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic/sales.csv'), mode='a', newline='') as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         csv_writer.writerow(data)
